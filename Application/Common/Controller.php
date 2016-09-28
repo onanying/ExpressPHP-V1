@@ -10,6 +10,7 @@ class Controller extends TP_Base
     public function __construct()
     {
         parent::__construct();
+        # 在这里写公共代码
     }
 
 }

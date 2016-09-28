@@ -1,6 +1,9 @@
 ﻿# TinyPHP-framework
 
-超轻量级php框架，框架核心只有4个文件（2个类文件、1个函数文件、1个入口文件），参考了CodeIgniter/ThinkPHP两个框架的实现方式；本框架没有封装任何快速开发的工具类，只实现了简易路由、MVC架构、单例模式、资源载入，更加适合cli模式的程序开发；CodeIgniter的用户能立即上手，想学习自己搭建框架的也可以参考。
+⚡ 一个框架，路由足以，其他的都可以自己去高效的实现；于是我写了这个超轻量级的php框架；
+
+- 完全参考了CodeIgniter的设计思想，使用方法也与之完全一样，无需重新学习。
+- 只实现了基本的路由功能：根据url实例化Controller，并调用方法。 
 
 ## cli 模式
 
@@ -11,6 +14,9 @@ php index.php Welcome index
 ## FastCGI 模式
 
 ```
+// 未加url重写
 http://www.test.com/index.php/welcome/index
-// 需要做url重写才能去掉 index.php
+
+// 开启apache的rewrite后
+http://www.test.com/welcome/index
 ```
