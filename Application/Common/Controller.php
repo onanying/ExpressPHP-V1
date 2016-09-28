@@ -4,7 +4,7 @@
  * 公共控制器
  * @author 刘健 <59208859>
  */
-class Controller extends Base
+class Controller extends TP_Base
 {
 
     public function __construct()
