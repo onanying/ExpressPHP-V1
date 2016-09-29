@@ -27,7 +27,7 @@ if (php_sapi_name() != 'cli') {
     }
 }
 $file_path = $argv[1];
-$class_name = basename($argv[1]);
+$class_name = ucfirst(strtolower(basename($argv[1])));
 $func_name = isset($argv[2]) ? $argv[2] : 'index';
 
 // 获取单例

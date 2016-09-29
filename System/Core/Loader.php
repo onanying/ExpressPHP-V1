@@ -20,6 +20,7 @@ class TP_Loader
     public function controller($file_path, $params = null)
     {
         $info = __parse_path($file_path);
+        $info['file_name'] = ucfirst(strtolower($info['file_name']));
         if (!$this->check_loaded($info['file_name'])) {
             // 包含文件
             __include('Controller' . $info['file_dir'], $info['file_name'], true);

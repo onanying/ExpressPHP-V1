@@ -19,6 +19,12 @@ function show_error($msg)
     exit;
 }
 
+// 获取实例
+function get_instance()
+{
+    return TP_Storage::get_instance();
+}
+
 // 包含代码文件
 function __include($file_dir, $file_name, $show_404 = false)
 {
@@ -55,10 +61,4 @@ function __parse_path($full_path)
     $file_path = $file_path == '.' ? '' : DIRECTORY_SEPARATOR . $file_path;
     $file_name = basename($full_path);
     return array('file_dir' => $file_path, 'file_name' => $file_name);
-}
-
-// 获取实例
-function get_instance()
-{
-    return TP_Storage::get_instance();
 }
