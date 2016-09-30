@@ -18,7 +18,7 @@ include SYS_PATH . 'Core' . DIRECTORY_SEPARATOR . 'Storage.php';
 include APP_PATH . 'Common' . DIRECTORY_SEPARATOR . 'Controller.php';
 include APP_PATH . 'Common' . DIRECTORY_SEPARATOR . 'Model.php';
 
-// 获取文件路径、类名、类方法名
+// 获取文件路径、类方法名
 if (php_sapi_name() != 'cli') {
     $argv = __get_argv();
 } else {
@@ -26,21 +26,21 @@ if (php_sapi_name() != 'cli') {
         show_404();
     }
 }
-$file_path = $argv[1];
-$class_name = ucfirst(strtolower(basename($argv[1])));
-$func_name = isset($argv[2]) ? $argv[2] : 'index';
+
+$file_path = ($argv[1] == '') ? 'welcome' : $argv[1];
+$func_name = ($argv[2] == '') ? 'index' : $argv[2];
 
 // 获取单例
 $instance = get_instance();
 $instance->load = new TP_Loader();
 
-// 载入控制器
-$instance->load->controller($file_path);
+// 创建控制器
+$object = controller($file_path);
 
 // 判断类方法是否存在
-if (!method_exists($instance->$class_name, $func_name)) {
+if (!method_exists($object, $func_name)) {
     show_404();
 }
 
-// 执行类方法
-$instance->$class_name->$func_name();
+// 执行控制器的类方法
+$object->$func_name();
