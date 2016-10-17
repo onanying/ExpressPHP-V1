@@ -22,7 +22,7 @@ class TP_Loader
         $info = __parse_path($file_path);
         if (!$this->check_loaded($info['file_name'])) {
             // 包含文件
-            __include('Model' .  $info['file_dir'], $info['file_name']);
+            __include('Model' . $info['file_dir'], $info['file_name']);
             // 装载对象
             $this->load_object($info['file_name'], $params);
         }
@@ -34,7 +34,7 @@ class TP_Loader
         $info = __parse_path($file_path);
         if (!$this->check_loaded($info['file_name'])) {
             // 包含文件
-            __include('Library' .  $info['file_dir'], $info['file_name']);
+            __include('Library' . $info['file_dir'], $info['file_name']);
             // 装载对象
             $this->load_object($info['file_name'], $params);
         }
@@ -46,7 +46,7 @@ class TP_Loader
         $info = __parse_path($file_path);
         if (!$this->check_loaded($info['file_name'])) {
             // 包含文件
-            __include('Db' .  $info['file_dir'], $info['file_name']);
+            __include('Db' . $info['file_dir'], $info['file_name']);
             // 装载对象
             $this->load_object($info['file_name'], $params);
         }
@@ -57,20 +57,20 @@ class TP_Loader
     {
         $info = __parse_path($file_path);
         // 包含文件
-        __include('Helper' .  $info['file_dir'], $info['file_name']);
+        __include('Helper' . $info['file_dir'], $info['file_name']);
     }
 
     // 视图
-    public function view($__file_path__, $data = null)
+    public function view($__file_path__, $__data__ = null)
     {
         // 申明变量
-        $keys = array_keys($data);
-        foreach ($keys as $key) {
-            $$key = $data[$key];
+        $__keys__ = array_keys($__data__);
+        foreach ($__keys__ as $__key__) {
+            $$__key__ = $__data__[$__key__];
         }
         // 载入视图
         $__info__ = __parse_path($__file_path__);
-        $__file_path__ = APP_PATH . 'View' .  $__info__['file_dir'] . DIRECTORY_SEPARATOR . $__info__['file_name'] . '.php';
+        $__file_path__ = APP_PATH . 'View' . $__info__['file_dir'] . DIRECTORY_SEPARATOR . $__info__['file_name'] . '.php';
         if (!file_exists($__file_path__)) {
             show_error('[ Can not find a file ] ' . $__file_path__);
         }
