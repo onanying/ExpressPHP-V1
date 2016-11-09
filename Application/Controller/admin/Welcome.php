@@ -4,7 +4,10 @@
  * 控制器 Sample
  * @author 刘健 <59208859>
  */
-class Welcome extends Controller
+
+namespace Tiny\Controller;
+
+class Welcome extends Tiny\Common\Controller
 {
 
     public function __construct()

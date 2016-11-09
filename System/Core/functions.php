@@ -22,7 +22,7 @@ function show_error($msg)
 // 获取实例
 function get_instance()
 {
-    return TP_Storage::get_instance();
+    return Storage::get_instance();
 }
 
 // 解析文件路径

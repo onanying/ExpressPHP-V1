@@ -12,6 +12,7 @@
  * # list内存储array是采用json格式
  *
  */
+namespace Tiny\Db;
 
 class RedisDriver
 {

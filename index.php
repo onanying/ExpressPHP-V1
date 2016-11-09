@@ -32,7 +32,7 @@ $func_name = ($argv[2] == '') ? 'index' : $argv[2];
 
 // 获取单例
 $instance = get_instance();
-$instance->load = new TP_Loader();
+$instance->load = new Loader();
 
 // 创建控制器
 $object = controller($file_path);

@@ -4,7 +4,10 @@
  * 模型 Sample
  * @author 刘健 <59208859>
  */
-class UsersModel extends Model
+
+namespace Tiny\Model;
+
+class User extends Tiny\Common\Model
 {
 
     public function __construct()
