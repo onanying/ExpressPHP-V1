@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 基类
+ * 控制器/模型的基类
  * @author 刘健 <59208859>
  */
 
@@ -10,11 +10,11 @@ namespace Tiny\Core;
 class Base
 {
 
-    protected $load;
+    protected $input;
 
     public function __construct()
     {
-        $this->load = new Loader($this);
+
     }
 
 }

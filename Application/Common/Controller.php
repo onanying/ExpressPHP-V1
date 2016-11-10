@@ -7,7 +7,9 @@
 
 namespace Tiny\Common;
 
-class Controller extends Tiny\Core\Base
+use Tiny\Core\Base;
+
+class Controller extends Base
 {
 
     public function __construct()
@@ -15,5 +17,7 @@ class Controller extends Tiny\Core\Base
         parent::__construct();
         # 在这里写公共代码
     }
+
+    # 在这里写公共方法
 
 }

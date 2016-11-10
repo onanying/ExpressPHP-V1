@@ -10,91 +10,88 @@ namespace Tiny\Core;
 class Loader
 {
 
-    protected $instance;
-    protected $base;
+    private static $file = array(); // 文件引用记录
 
-    public function __construct($base = null)
+    // 包含代码文件
+    private static function import($file_dir, $file_name)
     {
-        $this->instance = get_instance();
-        $this->base = $base;
+        if (isset(self::$file[$file_dir . $file_name])) {
+            return true;
+        } else {
+            self::$file[$file_dir . $file_name] = true;
+        }
+        $app_path = APP_PATH . $file_dir . DIRECTORY_SEPARATOR . $file_name . '.php';
+        if (is_file($app_path)) {
+            include $app_path;
+            return true;
+        }
+        $sys_path = SYS_PATH . $file_dir . DIRECTORY_SEPARATOR . $file_name . '.php';
+        if (is_file($sys_path)) {
+            include $sys_path;
+            return true;
+        }
+        return false;
+    }
+
+    // 控制器
+    public static function controller($file_path)
+    {
+        $fileInfo = Router::parsePath($file_path, true);
+        self::import('Controller' . $fileInfo['file_dir'], $fileInfo['file_name']) or show_404();
+        $className = "Tiny\\Controller\\{$fileInfo['file_name']}";     
+        return new $className;
     }
 
     // 模型
-    public function model($file_path, $params = null)
+    public static function model($file_path, $params = null)
     {
-        $info = __parse_path($file_path);
-        if (!$this->check_loaded($info['file_name'])) {
-            // 包含文件
-            __include('Model' . $info['file_dir'], $info['file_name']);
-            // 装载对象
-            $this->load_object($info['file_name'], $params);
-        }
+        $fileInfo = Router::parsePath($file_path);
+        self::import('Model' . $fileInfo['file_dir'], $fileInfo['file_name']) or show_error('[ Can not find a Model file ] ' . $file_path);
+        $className = "Tiny\\Model\\{$fileInfo['file_name']}";
+        return new $className;
     }
 
     // 类库
-    public function library($file_path, $params = null)
+    public static function library($file_path, $params = null)
     {
-        $info = __parse_path($file_path);
-        if (!$this->check_loaded($info['file_name'])) {
-            // 包含文件
-            __include('Library' . $info['file_dir'], $info['file_name']);
-            // 装载对象
-            $this->load_object($info['file_name'], $params);
-        }
+        $fileInfo = Router::parsePath($file_path);
+        self::import('Library' . $fileInfo['file_dir'], $fileInfo['file_name']) or show_error('[ Can not find a Library file ] ' . $file_path);
+        $className = "Tiny\\Library\\{$fileInfo['file_name']}";
+        return new $className;
     }
 
     // 数据库驱动
-    public function db($file_path, $params = null)
+    public static function db($file_path, $params = null)
     {
-        $info = __parse_path($file_path);
-        if (!$this->check_loaded($info['file_name'])) {
-            // 包含文件
-            __include('Db' . $info['file_dir'], $info['file_name']);
-            // 装载对象
-            $this->load_object($info['file_name'], $params);
-        }
+        $fileInfo = Router::parsePath($file_path);
+        self::import('Db' . $fileInfo['file_dir'], $fileInfo['file_name']) or show_error('[ Can not find a Db file ] ' . $file_path);
+        $className = "Tiny\\Db\\{$fileInfo['file_name']}";
+        return new $className;
     }
 
     // 辅助函数
-    public function helper($file_path)
+    public static function helper($file_path)
     {
-        $info = __parse_path($file_path);
-        // 包含文件
-        __include('Helper' . $info['file_dir'], $info['file_name']);
+        $fileInfo = Router::parsePath($file_path);
+        self::import('Helper' . $fileInfo['file_dir'], $fileInfo['file_name']) or show_error('[ Can not find a Helper file ] ' . $file_path);
+        return true;
     }
 
     // 视图
-    public function view($__file_path__, $__data__ = null)
+    public static function view($__filePath__, $__params__ = null)
     {
         // 申明变量
-        $__keys__ = array_keys($__data__);
-        foreach ($__keys__ as $__key__) {
-            $$__key__ = $__data__[$__key__];
+        foreach (array_keys($__params__) as $__key__) {
+            $$__key__ = $__params__[$__key__];
         }
         // 载入视图
-        $__info__ = __parse_path($__file_path__);
-        $__file_path__ = APP_PATH . 'View' . $__info__['file_dir'] . DIRECTORY_SEPARATOR . $__info__['file_name'] . '.php';
-        if (!file_exists($__file_path__)) {
-            show_error('[ Can not find a file ] ' . $__file_path__);
+        $__fileInfo__ = Router::parsePath($__filePath__);
+        $__viewPath__ = APP_PATH . 'View' . $__fileInfo__['file_dir'] . DIRECTORY_SEPARATOR . $__fileInfo__['file_name'] . '.php';
+        if (!is_file($__viewPath__)) {
+            show_error('[ Can not find a View file ] ' . $__filePath__);
         }
-        include $__file_path__;
-    }
-
-    // 装载对象
-    protected function load_object($class_name, $params)
-    {
-        // 新建对象
-        $this->instance->$class_name = (is_null($params) ? new $class_name : new $class_name($params));
-        // 加入引用
-        if (!is_null($this->base)) {
-            $this->base->$class_name = &$this->instance->$class_name;
-        }
-    }
-
-    // 检查载入状态
-    protected function check_loaded($class_name)
-    {
-        return isset($this->instance->$class_name);
+        include $__viewPath__;
+        return true;
     }
 
 }

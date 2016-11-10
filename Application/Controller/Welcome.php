@@ -7,19 +7,21 @@
 
 namespace Tiny\Controller;
 
-class Welcome extends Tiny\Common\Controller
+use Tiny\Common\Controller;
+
+class Welcome extends Controller
 {
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('user/UsersModel');
     }
 
     public function index()
     {
-        $data['info'] = $this->UsersModel->getUserInfo();
-        $this->load->view('sample', $data);
+        $usersModel = model('user');
+        $data['info'] = $usersModel->getUserInfo();
+        view('sample', $data);
     }
 
 }
