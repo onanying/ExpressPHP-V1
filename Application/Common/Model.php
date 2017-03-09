@@ -2,7 +2,7 @@
 
 /**
  * 公共模型
- * @author 刘健 <59208859>
+ * @author 刘健 <59208859@qq.com>
  */
 
 namespace Tiny\Common;

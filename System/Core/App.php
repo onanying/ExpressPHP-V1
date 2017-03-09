@@ -2,7 +2,7 @@
 
 /**
  * 应用程序类
- * @author 刘健 <59208859>
+ * @author 刘健 <59208859@qq.com>
  */
 
 namespace Tiny\Core;

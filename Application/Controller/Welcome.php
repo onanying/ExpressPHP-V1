@@ -2,7 +2,7 @@
 
 /**
  * 控制器 Sample
- * @author 刘健 <59208859>
+ * @author 刘健 <59208859@qq.com>
  */
 
 namespace Tiny\Controller;
@@ -19,8 +19,8 @@ class Welcome extends Controller
 
     public function index()
     {
-        $usersModel = model('user');
-        $data['info'] = $usersModel->getUserInfo();
+        $userModel = model('user');
+        $data['info'] = $userModel->getUserInfo();
         view('sample', $data);
     }
 

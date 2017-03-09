@@ -2,8 +2,13 @@
 
 /**
  * 程序入口
- * @author 刘健 <59208859>
+ * @author 刘健 <59208859@qq.com>
  */
+
+// 检测PHP环境
+if (version_compare(PHP_VERSION, '5.3.0', '<')) {
+    die('require PHP > 5.3.0 !');
+}
 
 // 全局常量定义
 define('FC_PATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);

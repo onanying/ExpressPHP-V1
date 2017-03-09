@@ -2,7 +2,7 @@
 
 /**
  * 公共控制器
- * @author 刘健 <59208859>
+ * @author 刘健 <59208859@qq.com>
  */
 
 namespace Tiny\Common;

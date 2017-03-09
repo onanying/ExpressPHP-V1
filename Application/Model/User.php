@@ -2,7 +2,7 @@
 
 /**
  * 模型 Sample
- * @author 刘健 <59208859>
+ * @author 刘健 <59208859@qq.com>
  */
 
 namespace Tiny\Model;
