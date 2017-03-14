@@ -12,7 +12,8 @@ class App
 
     public static function run()
     {
-    	
+    	$pathinfo =  isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
+    	var_dump(Route::match($pathinfo));
     }
 
 }
