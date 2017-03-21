@@ -33,11 +33,11 @@ class Route
     {
         foreach (self::$rules as $key => $rule) {
             if(preg_match($rule['rule']['pattern'], $pathinfo, $matches)){
-                $argv = [];
-                foreach ($rule['rule']['argv'] as $key => $value) {
-                    $argv[$value] = $matches[$key + 1];
+                $args = [];
+                foreach ($rule['rule']['args'] as $key => $value) {
+                    $args[$value] = $matches[$key + 1];
                 }
-                return ['path'=>$rule['path'], 'argv' => $argv];
+                return ['path'=>$rule['path'], 'args' => $args];
             }
         }
         return false;
@@ -47,7 +47,7 @@ class Route
     private static function convert($rule)
     {
         $parts = explode('/', $rule);
-        $argv = [];
+        $args = [];
         foreach ($parts as $key => $part) {            
             $partTag = substr($part, 0, 1);
             $partKey = substr($part, 1);
@@ -57,10 +57,10 @@ class Route
                 }else{
                     $parts[$key] = '(\w+)';
                 }
-                $argv[] = $partKey;
+                $args[] = $partKey;
             }
         }
-        return ['pattern'=>'/^\/' . implode('\/', $parts) . '/i', 'argv' => $argv];
+        return ['pattern'=>'/^\/' . implode('\/', $parts) . '/i', 'args' => $args];
     }
 
 }

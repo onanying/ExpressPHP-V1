@@ -1,27 +1,19 @@
 <?php
 
 /**
- * 控制器 Sample
- * @author 刘健 <59208859@qq.com>
+ * 控制器
+ * @author 刘健 <code.liu@qq.com>
  */
 
-namespace Tiny\Controller;
+namespace app\controller;
 
-use Tiny\Common\Controller;
-
-class Welcome extends Controller
+class Index
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     public function index()
     {
-        $userModel = model('user');
-        $data['info'] = $userModel->getUserInfo();
-        view('sample', $data);
+        $args = func_get_args();
+        var_dump($args);
     }
 
 }
