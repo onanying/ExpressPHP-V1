@@ -19,6 +19,8 @@ class Loader
         }
         // 注册路由配置
         self::registerRoute();
+        // 注册助手函数
+        self::registerHelper();
     }
 
     // 注册composer自动加载
@@ -31,6 +33,12 @@ class Loader
     private static function registerRoute()
     {
         require APP_PATH . 'route.php';
+    }
+
+    // 注册助手函数
+    private static function registerHelper()
+    {
+        require APP_PATH . 'helper.php';
     }
 
 }

@@ -20,8 +20,19 @@ class App
         }
         // 保存路由变量
         $GLOBALS['route'] = $routeData['args'];
-        // 执行控制器
-        self::runController($routeData);
+        // 加载配置
+
+        // 控制器路由
+        if (strpos($routeData['path'], '/')) {
+            self::runController($routeData);
+            return;
+        }
+        // 命名空间路由
+        if (strpos($routeData['path'], '\\')) {
+            self::runLibrary($routeData);
+            return;
+        }
+        self::showError();
     }
 
     // 执行控制器
@@ -36,10 +47,23 @@ class App
         $controller->$methodName();
     }
 
+    // 执行类方法
+    private static function runLibrary()
+    {
+
+    }
+
     // 展现404错误
     public static function show404()
     {
         echo 'ERROR: 404';
+        exit;
+    }
+
+    // 展现错误
+    public static function showError()
+    {
+        echo 'ERROR';
         exit;
     }
 
