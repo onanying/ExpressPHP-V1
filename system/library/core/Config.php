@@ -11,9 +11,15 @@ class Config
 {
 
     // 载入配置
-    public static function load($confPath)
+    public static function load($path)
     {
-    	$confPath = 
+        $path = '';
+    }
+
+    //
+    private static function import()
+    {
+
     }
 
 }

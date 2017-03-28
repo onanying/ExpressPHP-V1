@@ -25,7 +25,7 @@ class Route
     // 注册路由规则
     public static function rule($rule, $path)
     {
-        self::$rules[] = ['rule' => self::convert($rule), 'path' => $path];
+        self::$rules[] = ['rule' => self::convertRule($rule), 'path' => $path];
     }
 
     // 匹配操作路径
@@ -43,8 +43,8 @@ class Route
         return false;
     }
 
-    // 转换规则为正则并提取参数名
-    private static function convert($rule)
+    // 转换路由规则
+    private static function convertRule($rule)
     {
         $parts = explode('/', $rule);
         $args = [];
@@ -61,6 +61,22 @@ class Route
             }
         }
         return ['pattern' => '/^\/' . implode('\/', $parts) . '/i', 'args' => $args];
+    }
+
+    // 转换路由路径
+    private static function convertPath($path, &$args)
+    {
+        $parts = explode('/', $path);
+        foreach ($parts as $key => $part) {
+            $partTag = substr($part, 0, 1);
+            $partKey = substr($part, 1);
+            if ($partTag == ':') {
+                if (isset(self::$args[$partKey])) {
+                    $parts[$key] = self::$args[$partKey];
+                }
+            }
+        }
+        return implode('/', $parts);
     }
 
 }

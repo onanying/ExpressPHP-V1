@@ -14,33 +14,33 @@ class App
     public static function run()
     {
         $pathinfo = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
-        $routeData = Route::match($pathinfo);
-        if (!$routeData) {
+        $route = Route::match($pathinfo);
+        if (!$route) {
             self::show404();
         }
         // 保存路由变量
-        $GLOBALS['route'] = $routeData['args'];
-        // 加载配置
-
+        $GLOBALS['route'] = $route['args'];
         // 控制器路由
-        if (strpos($routeData['path'], '/')) {
-            self::runController($routeData);
+        if (strpos($route['path'], '/')) {
+            self::runController($route);
             return;
         }
         // 命名空间路由
-        if (strpos($routeData['path'], '\\')) {
-            self::runLibrary($routeData);
+        if (strpos($route['path'], '\\')) {
+            self::runLibrary($route);
             return;
         }
         self::showError();
     }
 
     // 执行控制器
-    private static function runController($routeData)
+    private static function runController($route)
     {
+        // 转换路径参数
+        $route['path'] = Route::convertPath($route['path'], $GLOBALS['route']);
         // 实例化控制器
-        $classPath = dirname($routeData['path']);
-        $methodName = basename($routeData['path']);
+        $classPath = dirname($route['path']);
+        $methodName = basename($route['path']);
         $classFull = '\\app\\controller\\' . str_ireplace('/', '\\', $classPath);
         $controller = new $classFull;
         // 执行控制器的方法
