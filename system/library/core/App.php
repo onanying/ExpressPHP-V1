@@ -14,53 +14,33 @@ class App
     public static function run()
     {
         $pathinfo = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
-        $route = Route::match($pathinfo);
-        if (!$route) {
+        $controllerPath = Route::match($pathinfo);
+        if (!$controllerPath) {
             self::show404();
         }
-        // 保存路由变量
-        $GLOBALS['route'] = $route['args'];
-        // 控制器路由
-        if (strpos($route['path'], '/')) {
-            self::runController($route);
-            return;
-        }
-        // 命名空间路由
-        if (strpos($route['path'], '\\')) {
-            self::runLibrary($route);
-            return;
-        }
-        self::showError();
+        self::runController($controllerPath);
     }
 
     // 执行控制器
-    private static function runController($route)
+    private static function runController($controllerPath)
     {
-        // 转换路径参数
-        $route['path'] = Route::convertPath($route['path'], $GLOBALS['route']);
         // 实例化控制器
-        $classPath = dirname($route['path']);
-        $methodName = basename($route['path']);
+        $classPath = dirname($controllerPath);
+        $methodName = basename($controllerPath);
         $classFull = '\\app\\controller\\' . str_ireplace('/', '\\', $classPath);
         $controller = new $classFull;
         // 执行控制器的方法
         $controller->$methodName();
     }
 
-    // 执行类方法
-    private static function runLibrary()
-    {
-
-    }
-
-    // 展现404错误
+    // 输出404错误
     public static function show404()
     {
         echo 'ERROR: 404';
         exit;
     }
 
-    // 展现错误
+    // 输出错误
     public static function showError()
     {
         echo 'ERROR';

@@ -7,13 +7,14 @@
 
 namespace app\controller;
 
+use sys\Config;
+
 class Index
 {
 
     public function index()
     {
-        $args = func_get_args();
-        var_dump($args);
+        print_r(Config::get('database.database'));
     }
 
 }

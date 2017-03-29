@@ -37,7 +37,10 @@ class Route
                 foreach ($rule['rule']['args'] as $key => $value) {
                     $args[$value] = $matches[$key + 1];
                 }
-                return ['path' => $rule['path'], 'args' => $args];
+                // 保存路由变量
+                $GLOBALS['route'] = $args;
+                // 返回解析后的控制器路径
+                return self::convertPath($rule['path'], $args);
             }
         }
         return false;
@@ -64,7 +67,7 @@ class Route
     }
 
     // 转换路由路径
-    private static function convertPath($path, &$args)
+    private static function convertPath($path, $args)
     {
         $parts = explode('/', $path);
         foreach ($parts as $key => $part) {
