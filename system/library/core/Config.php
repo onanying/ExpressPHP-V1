@@ -21,7 +21,7 @@ class Config
     // 包含配置文件
     private static function import($fileName)
     {
-        $value = include APP_PATH . $fileName . '.php';
+        $value = include CONF_PATH . $fileName . '.php';
         return is_array($value) ? $value : [];
     }
 
@@ -67,6 +67,7 @@ class Config
             $argsName = $args[1];
             return isset($GLOBALS['config'][$fileName][$argsName]) ? true : false;
         }
+        return false;
     }
 
 }

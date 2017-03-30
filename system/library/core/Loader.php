@@ -47,8 +47,9 @@ class Loader
     // 注册配置文件
     private static function registerConfig()
     {
-        Config::load('database');
         Config::load('config');
+        Config::load('mysql');
+        Config::load('redis');
     }
 
 }

@@ -14,7 +14,7 @@ class Index
 
     public function index()
     {
-        print_r(Config::get('database.database'));
+        var_dump(Config::get());
     }
 
 }
