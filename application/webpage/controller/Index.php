@@ -7,14 +7,12 @@
 
 namespace app\webpage\controller;
 
-use sys\Config;
-
 class Index
 {
 
     public function index()
     {
-        var_dump(Config::get());
+        echo 'Index/index';
     }
 
 }

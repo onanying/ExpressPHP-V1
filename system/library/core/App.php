@@ -16,7 +16,7 @@ class App
         $pathinfo = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/';
         $fullPath = Route::match($pathinfo);
         if (!$fullPath) {
-            self::show404();
+            throw new \sys\exception\HttpException(404, '页面不存在');
         }
         self::runController($fullPath);
     }
@@ -24,12 +24,6 @@ class App
     // 执行控制器
     private static function runController($fullPath)
     {
-
-
-        print_r($GLOBALS['route']);
-        print_r($fullPath);die;
-
-
         // 实例化控制器
         $classPath = dirname($fullPath);
         $methodName = basename($fullPath);
@@ -37,20 +31,6 @@ class App
         $controller = new $namespace;
         // 执行控制器的方法
         $controller->$methodName();
-    }
-
-    // 输出404错误
-    public static function show404()
-    {
-        echo 'ERROR: 404';
-        exit;
-    }
-
-    // 输出错误
-    public static function showError()
-    {
-        echo 'ERROR';
-        exit;
     }
 
 }

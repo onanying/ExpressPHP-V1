@@ -14,7 +14,7 @@ class News
 
     public function index()
     {
-        var_dump(Config::get());
+        echo 'News/index';
     }
 
 }
