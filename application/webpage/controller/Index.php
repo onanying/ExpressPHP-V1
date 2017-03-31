@@ -5,7 +5,7 @@
  * @author 刘健 <code.liu@qq.com>
  */
 
-namespace app\controller;
+namespace app\webpage\controller;
 
 use sys\Config;
 

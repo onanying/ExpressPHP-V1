@@ -10,11 +10,23 @@ namespace sys;
 class Route
 {
 
+    // 标准模式
+    const STANDARD = 0;
+
+    // 控制器模式
+    const BIND_METHOD = 1;
+
     // 变量规则数组
     private static $patterns;
 
     // 路由规则数组
     private static $rules;
+
+    // 默认变量规则
+    private static $defaultPattern = '[\w-]+';
+
+    // 默认变量规则
+    private static $defaultMethod = 'index';
 
     // 设置变量规则
     public static function pattern($key, $pattern)
@@ -23,19 +35,58 @@ class Route
     }
 
     // 注册路由规则
-    public static function rule($rule, $path)
+    public static function rule($rule, $path, $mode = self::STANDARD)
     {
-        self::$rules[] = ['rule' => self::convertRule($rule), 'path' => $path];
+        self::$rules[] = ['rule' => self::convertRule($rule, $mode), 'path' => $path];
     }
 
     // 匹配操作路径
     public static function match($pathinfo)
     {
+        $fullPath = false;
         foreach (self::$rules as $key => $rule) {
-            if (preg_match($rule['rule']['pattern'], $pathinfo, $matches)) {
+            switch ($rule['rule']['mode']) {
+                case self::STANDARD:
+                    $fullPath = self::standardMatch($rule, $pathinfo);
+                    break;
+                case self::BIND_METHOD:
+                    $fullPath = self::BIND_METHODMatch($rule, $pathinfo);
+                    break;
+            }
+            if ($fullPath) {
+                return $fullPath;
+            }
+        }
+        return $fullPath;
+    }
+
+    // 标准模式匹配
+    private static function standardMatch($rule, $pathinfo)
+    {
+        if (preg_match($rule['rule']['pattern'], $pathinfo, $matches)) {
+            $args = [];
+            foreach ($rule['rule']['args'] as $key => $value) {
+                $args[$value] = $matches[$key + 1];
+            }
+            // 保存路由变量
+            $GLOBALS['route'] = $args;
+            // 返回解析后的控制器路径
+            return self::convertPath($rule['path'], $args);
+        }
+    }
+
+    // 控制模式匹配
+    private static function BIND_METHODMatch($rule, $pathinfo)
+    {
+        foreach ($rule['rule']['pattern'] as $pattern) {
+            if (preg_match($pattern, $pathinfo, $matches)) {
                 $args = [];
                 foreach ($rule['rule']['args'] as $key => $value) {
-                    $args[$value] = $matches[$key + 1];
+                    if (isset($matches[$key + 1])) {
+                        $args[$value] = $matches[$key + 1];
+                    } else {
+                        $args[$value] = self::$defaultMethod;
+                    }
                 }
                 // 保存路由变量
                 $GLOBALS['route'] = $args;
@@ -43,12 +94,26 @@ class Route
                 return self::convertPath($rule['path'], $args);
             }
         }
-        return false;
     }
 
     // 转换路由规则
-    private static function convertRule($rule)
+    private static function convertRule($rule, $mode)
     {
+        switch ($mode) {
+            case self::STANDARD:
+                return self::standardConvertRule($rule);
+                break;
+            case self::BIND_METHOD:
+                return self::BIND_METHODConvertRule($rule);
+                break;
+        }
+    }
+
+    // 标准模式转换
+    private static function standardConvertRule($rule)
+    {
+        $endMark = self::fetchEndMark($rule);
+        $rule = substr($rule, 0, -1);
         $parts = explode('/', $rule);
         $args = [];
         foreach ($parts as $key => $part) {
@@ -58,12 +123,51 @@ class Route
                 if (isset(self::$patterns[$partKey])) {
                     $parts[$key] = '(' . self::$patterns[$partKey] . ')';
                 } else {
-                    $parts[$key] = '(\w+)';
+                    $parts[$key] = '(' . self::$defaultPattern . ')';
                 }
                 $args[] = $partKey;
             }
         }
-        return ['pattern' => '/^\/' . implode('\/', $parts) . '/i', 'args' => $args];
+        return [
+            'pattern' => '/^\/' . implode('\/', $parts) . $endMark . '/i',
+            'args' => $args,
+            'mode' => self::STANDARD,
+        ];
+    }
+
+    // 控制模式转换
+    private static function BIND_METHODConvertRule($rule)
+    {
+        $endMark = self::fetchEndMark($rule);
+        $rule = substr($rule, 0, -1);
+        $parts = explode('/', $rule);
+        $args = [];
+        $lastPart = array_pop($parts);
+        $partTag = substr($lastPart, 0, 1);
+        $partKey = substr($lastPart, 1);
+        if ($partTag == ':') {
+            if (isset(self::$patterns[$partKey])) {
+                $lastPart = '(' . self::$patterns[$partKey] . ')';
+            } else {
+                $lastPart = '(' . self::$defaultPattern . ')';
+            }
+            $args[] = $partKey;
+        }
+        return [
+            'pattern' => [
+                '/^\/' . implode('\/', $parts) . '\/' . $lastPart . $endMark . '/i',
+                '/^\/' . implode('\/', $parts) . $endMark . '/i',
+            ],
+            'args' => $args,
+            'mode' => self::BIND_METHOD,
+        ];
+    }
+
+    // 提取结束标记
+    private static function fetchEndMark($rule)
+    {
+        $lastWord = substr($rule, -1);
+        return $lastWord == '$' ? '$' : '';
     }
 
     // 转换路由路径
@@ -74,8 +178,8 @@ class Route
             $partTag = substr($part, 0, 1);
             $partKey = substr($part, 1);
             if ($partTag == ':') {
-                if (isset(self::$args[$partKey])) {
-                    $parts[$key] = self::$args[$partKey];
+                if (isset($args[$partKey])) {
+                    $parts[$key] = $args[$partKey];
                 }
             }
         }
