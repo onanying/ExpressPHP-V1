@@ -8,13 +8,14 @@
 namespace app\webpage\controller;
 
 use sys\Config;
+use sys\Request;
 
 class News
 {
 
     public function index()
     {
-        echo 'echo News/index';
+        echo Request::postxx('a');
     }
 
 }

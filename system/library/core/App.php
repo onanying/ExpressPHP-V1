@@ -15,6 +15,7 @@ class App
     {
         $pathinfo = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/';
         $location = Route::match($pathinfo);
+        Route::destruct();
         if (!$location) {
             throw new \sys\exception\HttpException(404, '页面不存在');
         }

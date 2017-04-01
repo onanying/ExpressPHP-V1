@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 路由类
+ * Route类
  * @author 刘健 <code.liu@qq.com>
  */
 
@@ -113,9 +113,9 @@ class Route
     private static function standardConvertRule($rule)
     {
         $endMark = self::fetchEndMark($rule);
-        $rule = substr($rule, 0, -1);
-        $parts = explode('/', $rule);
-        $args = [];
+        $rule    = substr($rule, 0, -1);
+        $parts   = explode('/', $rule);
+        $args    = [];
         foreach ($parts as $key => $part) {
             $partTag = substr($part, 0, 1);
             $partKey = substr($part, 1);
@@ -130,21 +130,21 @@ class Route
         }
         return [
             'pattern' => '/^\/' . implode('\/', $parts) . $endMark . '/i',
-            'args' => $args,
-            'mode' => self::STANDARD,
+            'args'    => $args,
+            'mode'    => self::STANDARD,
         ];
     }
 
     // 控制模式转换
     private static function BIND_METHODConvertRule($rule)
     {
-        $endMark = self::fetchEndMark($rule);
-        $rule = substr($rule, 0, -1);
-        $parts = explode('/', $rule);
-        $args = [];
+        $endMark  = self::fetchEndMark($rule);
+        $rule     = substr($rule, 0, -1);
+        $parts    = explode('/', $rule);
+        $args     = [];
         $lastPart = array_pop($parts);
-        $partTag = substr($lastPart, 0, 1);
-        $partKey = substr($lastPart, 1);
+        $partTag  = substr($lastPart, 0, 1);
+        $partKey  = substr($lastPart, 1);
         if ($partTag == ':') {
             if (isset(self::$patterns[$partKey])) {
                 $lastPart = '(' . self::$patterns[$partKey] . ')';
@@ -158,8 +158,8 @@ class Route
                 '/^\/' . implode('\/', $parts) . '\/' . $lastPart . $endMark . '/i',
                 '/^\/' . implode('\/', $parts) . $endMark . '/i',
             ],
-            'args' => $args,
-            'mode' => self::BIND_METHOD,
+            'args'    => $args,
+            'mode'    => self::BIND_METHOD,
         ];
     }
 
@@ -184,6 +184,13 @@ class Route
             }
         }
         return implode('/', $parts);
+    }
+
+    // 销毁路由配置
+    public static function destruct()
+    {
+        self::$patterns = null;
+        self::$rules = null;
     }
 
 }
