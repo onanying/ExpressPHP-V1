@@ -14,7 +14,7 @@ class News
 
     public function index()
     {
-        echo 'News/index';
+        echo 'echo News/index';
     }
 
 }

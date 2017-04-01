@@ -17,6 +17,8 @@ class Loader
         if (is_dir(VENDOR_PATH . 'composer')) {
             self::registerComposerLoader();
         }
+        // 注册异常处理
+        self::registerError();
         // 注册路由配置
         self::registerRoute();
         // 注册助手函数
@@ -29,6 +31,12 @@ class Loader
     private static function registerComposerLoader()
     {
         require VENDOR_PATH . 'autoload.php';
+    }
+
+    // 注册异常处理
+    private static function registerError()
+    {
+        Error::register();
     }
 
     // 注册路由配置

@@ -43,21 +43,21 @@ class Route
     // 匹配操作路径
     public static function match($pathinfo)
     {
-        $fullPath = false;
+        $location = false;
         foreach (self::$rules as $key => $rule) {
             switch ($rule['rule']['mode']) {
                 case self::STANDARD:
-                    $fullPath = self::standardMatch($rule, $pathinfo);
+                    $location = self::standardMatch($rule, $pathinfo);
                     break;
                 case self::BIND_METHOD:
-                    $fullPath = self::BIND_METHODMatch($rule, $pathinfo);
+                    $location = self::BIND_METHODMatch($rule, $pathinfo);
                     break;
             }
-            if ($fullPath) {
-                return $fullPath;
+            if ($location) {
+                return $location;
             }
         }
-        return $fullPath;
+        return $location;
     }
 
     // 标准模式匹配

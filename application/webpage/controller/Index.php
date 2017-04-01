@@ -12,7 +12,7 @@ class Index
 
     public function index()
     {
-        echo 'Index/index';
+        echo 'echo Index/index';
     }
 
 }
