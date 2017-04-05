@@ -43,6 +43,10 @@ class Error
             echo $e->getStatusCode(), "\n";
             echo $e->getMessage(), "\n";
         }
+        if ($e instanceof \sys\exception\ConfigException) {
+            echo $e->getMessage(), "\n";
+            echo $e->getPath(), "\n";
+        }
     }
 
     // Error Handler

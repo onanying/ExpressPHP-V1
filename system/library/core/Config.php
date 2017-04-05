@@ -21,7 +21,11 @@ class Config
     // 包含配置文件
     private static function import($fileName)
     {
-        $value = include CONF_PATH . $fileName . '.php';
+        $filePath = CONF_PATH . $fileName . '.php';
+        if (!is_file($filePath)) {
+            throw new \sys\exception\ConfigException('配置文件不存在', $fileName . '.php');
+        }
+        $value = include $filePath;
         return is_array($value) ? $value : [];
     }
 
@@ -30,21 +34,28 @@ class Config
     {
         // 全部配置
         if ($argsPath == '') {
-            return $GLOBALS['config'];
+            if (isset($GLOBALS['config'])) {
+                return $GLOBALS['config'];
+            }
         }
-        $args = explode('.', $argsPath);
+        $args   = explode('.', $argsPath);
         $length = count($args);
         // 一级配置
         if ($length == 1) {
             $fileName = $args[0];
-            return $GLOBALS['config'][$fileName];
+            if (isset($GLOBALS['config'][$fileName])) {
+                return $GLOBALS['config'][$fileName];
+            }
         }
         // 二级配置
         if ($length == 2) {
             $fileName = $args[0];
             $argsName = $args[1];
-            return $GLOBALS['config'][$fileName][$argsName];
+            if (isset($GLOBALS['config'][$fileName][$argsName])) {
+                return $GLOBALS['config'][$fileName][$argsName];
+            }
         }
+        throw new \sys\exception\ConfigException('配置项不存在', $argsPath);
     }
 
     // 判断配置是否存在
@@ -54,7 +65,7 @@ class Config
         if ($argsPath == '') {
             return isset($GLOBALS['config']) ? true : false;
         }
-        $args = explode('.', $argsPath);
+        $args   = explode('.', $argsPath);
         $length = count($args);
         // 一级配置
         if ($length == 1) {

@@ -14,7 +14,7 @@ class Request
     private static $param;
 
     // 变量过滤
-    private static function filterValue(&$array, $name, $filter = '')
+    private static function filterValue(&$array, $name = '', $filter = '')
     {
         if (!isset($array[$name])) {
             return null;

@@ -15,7 +15,7 @@ class News
 
     public function index()
     {
-        echo Request::postxx('a');
+        print_r(Config::get('mysql.database'));
     }
 
 }
