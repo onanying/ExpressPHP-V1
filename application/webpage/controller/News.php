@@ -15,7 +15,7 @@ class News
 
     public function index()
     {
-        print_r(Config::get('mysql.database'));
+        
     }
 
 }
