@@ -61,10 +61,6 @@ class Config
     // 判断配置是否存在
     public static function has($argsPath = '')
     {
-        // 全部配置
-        if ($argsPath == '') {
-            return isset($GLOBALS['config']) ? true : false;
-        }
         $args   = explode('.', $argsPath);
         $length = count($args);
         // 一级配置
