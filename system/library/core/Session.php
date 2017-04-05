@@ -16,6 +16,10 @@ class Session
     private static function init()
     {
         if (!isset(self::$initComplete)) {
+            $config = Config::get('config.session');
+            ini_set('session.save_handler', $config['save_handler']);
+            ini_set('session.save_path', $config['save_path']);
+            ini_set('session.gc_maxlifetime', $config['gc_maxlifetime']);
             session_start();
             self::$initComplete = true;
         }
