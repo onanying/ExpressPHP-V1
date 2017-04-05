@@ -20,6 +20,7 @@ class News
 
     public function article()
     {
+    	//echox dfdfd;
         Session::set('user', ['uid' => 1000, 'name' => 'xiaohua']);
         print_r(Session::get());
     }

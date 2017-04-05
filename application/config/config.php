@@ -9,7 +9,7 @@ return [
     // 自动加载配置文件
     'autoload_config'        => ['mysql', 'redis'],
 
-    // 默认过滤方法
+    // 默认过滤方法: htmlspecialchars | strip_tags
     'request_default_filter' => 'htmlspecialchars',
 
     // session配置
@@ -19,7 +19,7 @@ return [
         'save_handler'   => 'redis',
 
         // 保存路径: /tmp | tcp://127.0.0.1:8888?auth=pwd
-        'save_path'      => 'tcp://114.119.4.6:6388?auth=Fitcom2015jiankangyun123456QWERTyuiop',
+        'save_path'      => 'tcp://114.119.4.6:6388?auth=Fitcom2015jiankangyun123456QWERTyuiop1',
 
         // session有效期
         'gc_maxlifetime' => 7200,

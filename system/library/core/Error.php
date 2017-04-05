@@ -10,6 +10,8 @@ namespace sys;
 class Error
 {
 
+    private static $processed;
+
     // 注册异常处理
     public static function register()
     {
@@ -22,24 +24,21 @@ class Error
     // Error Handler
     public static function appError($errno, $errstr, $errfile = '', $errline = 0, $errcontext = [])
     {
-        if (!Config::get('config.app_debug')) {
-            echo '500', "\n";
-            echo '服务器内部错误', "\n";
-            return;
+        throw new \sys\exception\ErrorException($errno, $errstr, $errfile, $errline);
+    }
+
+    // Error Handler
+    public static function appShutdown()
+    {
+        if ($error = error_get_last()) {
+            self::appException(new \sys\exception\ErrorException($error['type'], $error['message'], $error['file'], $error['line']));
         }
-        $error = [
-            'errno'      => $errno,
-            'errstr'     => $errstr,
-            'errfile'    => $errfile,
-            'errline'    => $errline,
-            'errcontext' => $errcontext,
-        ];
-        print_r($error);
     }
 
     // Exception Handler
     public static function appException($e)
     {
+        $sysError = ob_get_clean();
         if ($e instanceof \sys\exception\HttpException) {
             echo $e->getStatusCode(), "\n";
             echo $e->getMessage(), "\n";
@@ -48,6 +47,11 @@ class Error
         if (!Config::get('config.app_debug')) {
             echo '500', "\n";
             echo '服务器内部错误', "\n";
+            return;
+        }
+        if ($e instanceof \sys\exception\ErrorException) {
+            echo '系统错误', "\n";
+            echo $e->getMessage(), "\n";
             return;
         }
         if ($e instanceof \sys\exception\RouteException) {
@@ -60,17 +64,8 @@ class Error
             echo $e->getPath(), "\n";
             return;
         }
-    }
-
-    // Error Handler
-    public static function appShutdown()
-    {
-        if (!Config::get('config.app_debug')) {
-            echo '500', "\n";
-            echo '服务器内部错误', "\n";
-            return;
-        }
-        print_r(error_get_last());
+        echo '未定义错误', "\n";
+        echo $e->getMessage(), "\n";
     }
 
 }
