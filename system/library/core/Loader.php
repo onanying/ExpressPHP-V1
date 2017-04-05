@@ -56,8 +56,9 @@ class Loader
     private static function registerConfig()
     {
         Config::load('config');
-        Config::load('mysql');
-        Config::load('redis');
+        foreach (Config::get('config.autoload_config') as $config) {
+            Config::load($config);
+        }
     }
 
 }
