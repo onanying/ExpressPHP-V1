@@ -15,7 +15,7 @@ class News
 
     public function index()
     {
-        print_r(Request::param());
+        phpinfo();
     }
 
     public function article()
@@ -23,6 +23,10 @@ class News
     	//echox dfdfd;
         Session::set('user', ['uid' => 1000, 'name' => 'xiaohua']);
         print_r(Session::get());
+        // $mem = new \Memcache();
+        // $mem->connect('127.0.0.1', 11211);
+        // //$mem->add('aaaa', "dffd");
+        // echo $mem->get('aaaa');
     }
 
 }

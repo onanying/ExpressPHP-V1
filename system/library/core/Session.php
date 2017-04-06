@@ -18,8 +18,18 @@ class Session
         if (!isset(self::$initComplete)) {
             $config = Config::get('config.session');
             ini_set('session.save_handler', $config['save_handler']);
-            ini_set('session.save_path', $config['save_path']);
             ini_set('session.gc_maxlifetime', $config['gc_maxlifetime']);
+            switch ($config['save_handler']) {
+                case 'files':
+                    ini_set('session.save_path', $config['file_save_path']);
+                    break;
+                case 'redis':
+                    ini_set('session.save_path', 'tcp://' . Config::get('redis.hostname') . ':' . Config::get('redis.hostport') . '?auth=' . Config::get('redis.password'));
+                    break;
+                case 'memcache':
+                    ini_set('session.save_path', 'tcp://' . Config::get('memcache.hostname') . ':' . Config::get('memcache.hostport') . '?auth=' . Config::get('memcache.password'));
+                    break;
+            }
             session_start();
             self::$initComplete = true;
         }
