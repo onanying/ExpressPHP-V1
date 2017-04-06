@@ -2,7 +2,7 @@
 
     "autoload": {
         "psr-4": {
-            "sys\\": "system/library/core/",
+            "sys\\": "system/library/",
             "app\\": "application/"
         }
     }

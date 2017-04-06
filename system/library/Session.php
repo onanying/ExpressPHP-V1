@@ -21,7 +21,7 @@ class Session
             ini_set('session.gc_maxlifetime', $config['gc_maxlifetime']);
             switch ($config['save_handler']) {
                 case 'files':
-                    ini_set('session.save_path', $config['file_save_path']);
+                    ini_set('session.save_path', $config['files_save_path']);
                     break;
                 case 'redis':
                     ini_set('session.save_path', 'tcp://' . Config::get('redis.hostname') . ':' . Config::get('redis.hostport') . '?auth=' . Config::get('redis.password'));

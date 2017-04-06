@@ -4,7 +4,6 @@
 define('DS', DIRECTORY_SEPARATOR);
 defined('SYS_PATH') or define('SYS_PATH', __DIR__ . DS);
 define('LIB_PATH', SYS_PATH . 'library' . DS);
-define('CORE_PATH', LIB_PATH . 'core' . DS);
 defined('APP_PATH') or define('APP_PATH', dirname($_SERVER['SCRIPT_FILENAME']) . DS);
 defined('ROOT_PATH') or define('ROOT_PATH', dirname(realpath(APP_PATH)) . DS);
 defined('CONF_PATH') or define('CONF_PATH', APP_PATH . 'config' . DS);
@@ -18,7 +17,7 @@ defined('TEMP_PATH') or define('TEMP_PATH', RUNTIME_PATH . 'temp' . DS);
 define('IS_CLI', PHP_SAPI == 'cli' ? true : false);
 
 // 载入Loader类
-require CORE_PATH . 'Loader.php';
+require LIB_PATH . 'Loader.php';
 
 // 载入注册
 \sys\Loader::register();
