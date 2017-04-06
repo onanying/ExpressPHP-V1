@@ -18,7 +18,7 @@ class Config
         }
     }
 
-    // 包含配置文件
+    // 导入配置文件
     private static function import($fileName)
     {
         $filePath = CONF_PATH . $fileName . '.php';

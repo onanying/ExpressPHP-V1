@@ -7,21 +7,12 @@
 
 namespace sys\exception;
 
-class RouteException extends \RuntimeException
+class RouteException extends NotFoundException
 {
-
-    protected $location;
 
     public function __construct($message, $location)
     {
-        $this->message  = $message;
-        $this->location = $location;
-    }
-
-    // 获取位置
-    public function getLocation()
-    {
-        return $this->location;
+        parent::__construct($message, $location);
     }
 
 }

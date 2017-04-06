@@ -19,7 +19,7 @@ class App
         if (!$location) {
             throw new \sys\exception\HttpException(404, '页面不存在');
         }
-        self::runController($location);
+        return self::runController($location);
     }
 
     // 执行控制器
@@ -40,7 +40,7 @@ class App
             throw new \sys\exception\RouteException('方法未找到', $namespace . '->' . $methodName . '()');
         }
         // 执行控制器的方法
-        $controller->$methodName();
+        return $controller->$methodName();
     }
 
 }

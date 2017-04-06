@@ -10,13 +10,9 @@ namespace sys\exception;
 class ErrorException extends \RuntimeException
 {
 
-    protected $type;
-    protected $file;
-    protected $line;
-
     public function __construct($type, $message, $file, $line)
     {
-        $this->type = $type;
+        $this->code = $type;
         $this->message  = $message;
         $this->file = $file;
         $this->line = $line;

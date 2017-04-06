@@ -38,10 +38,13 @@ class Error
     // Exception Handler
     public static function appException($e)
     {
-        $sysError = ob_get_clean();
+        ob_clean();
         if ($e instanceof \sys\exception\HttpException) {
             echo $e->getStatusCode(), "\n";
             echo $e->getMessage(), "\n";
+            echo $e->getFile(), "\n";
+            echo $e->getLine(), "\n";
+            echo $e->getTraceAsString(), "\n";
             return;
         }
         if (!Config::get('config.app_debug')) {
@@ -50,22 +53,42 @@ class Error
             return;
         }
         if ($e instanceof \sys\exception\ErrorException) {
-            echo '系统错误', "\n";
+            echo '系统错误', ":";
             echo $e->getMessage(), "\n";
+            echo $e->getFile(), "\n";
+            echo $e->getLine(), "\n";
+            echo $e->getTraceAsString(), "\n";
             return;
         }
         if ($e instanceof \sys\exception\RouteException) {
             echo $e->getMessage(), "\n";
             echo $e->getLocation(), "\n";
+            echo $e->getFile(), "\n";
+            echo $e->getLine(), "\n";
+            echo $e->getTraceAsString(), "\n";
             return;
         }
         if ($e instanceof \sys\exception\ConfigException) {
             echo $e->getMessage(), "\n";
-            echo $e->getPath(), "\n";
+            echo $e->getLocation(), "\n";
+            echo $e->getFile(), "\n";
+            echo $e->getLine(), "\n";
+            echo $e->getTraceAsString(), "\n";
             return;
         }
-        echo '未定义错误', "\n";
+        if ($e instanceof \sys\exception\ViewException) {
+            echo $e->getMessage(), "\n";
+            echo $e->getLocation(), "\n";
+            echo $e->getFile(), "\n";
+            echo $e->getLine(), "\n";
+            echo $e->getTraceAsString(), "\n";
+            return;
+        }
+        echo '未定义错误', ":";
         echo $e->getMessage(), "\n";
+        echo $e->getFile(), "\n";
+        echo $e->getLine(), "\n";
+        echo $e->getTraceAsString(), "\n";
     }
 
 }

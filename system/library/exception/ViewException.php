@@ -1,13 +1,13 @@
 <?php
 
 /**
- * ConfigException类
+ * ViewException类
  * @author 刘健 <code.liu@qq.com>
  */
 
 namespace sys\exception;
 
-class ConfigException extends NotFoundException
+class ViewException extends NotFoundException
 {
 
     public function __construct($message, $location)

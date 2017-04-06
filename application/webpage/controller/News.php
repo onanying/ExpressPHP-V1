@@ -7,8 +7,7 @@
 
 namespace app\webpage\controller;
 
-use sys\Request;
-use sys\Session;
+use sys\View;
 
 class News
 {
@@ -20,13 +19,15 @@ class News
 
     public function article()
     {
-    	//echox dfdfd;
-        Session::set('user', ['uid' => 1000, 'name' => 'xiaohua']);
-        print_r(Session::get());
-        // $mem = new \Memcache();
-        // $mem->connect('127.0.0.1', 11211);
-        // //$mem->add('aaaa', "dffd");
-        // echo $mem->get('aaaa');
+        // $view = new View();
+        // $view->fetch('webpage.view.sample');
+        // $view->assign('name', 'xiaohua');
+        // $view->assign('sex', 'w');
+        // return $view;
+
+        //return view()->fetch('webpage.view.sample')->assign('name', 'xiaohua')->assign('sex', 'w');
+
+        return view('webpage.view.sample', ['name' => 'xiaohua', 'sex' => 'w']);
     }
 
 }

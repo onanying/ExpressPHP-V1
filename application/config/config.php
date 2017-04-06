@@ -16,7 +16,7 @@ return [
     'session'                => [
 
         // 保存类型: files | redis | memcache
-        'save_handler'   => 'files',
+        'save_handler'   => 'redis',
 
         // files保存路径: /tmp
         'files_save_path' => 'c:/tmp',
