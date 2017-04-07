@@ -7,6 +7,8 @@
 
 namespace sys;
 
+use sys\response\SysView;
+
 class Error
 {
 
@@ -43,14 +45,18 @@ class Error
         // 清除无法接管的php系统语法错误
         ob_clean();
         // 生成视图
-        $sysView = new SysView('template.exception');
+        $sysView  = new SysView('template.exception');
+        $response = Response::create($sysView);
+        $response->code(500);
         if ($e instanceof \sys\exception\HttpException) {
+            $response->code(404);
             $sysView->assign('message', $e->getStatusCode() . ' / ' . $e->getMessage());
         } else if (!$appDebug) {
             $sysView->assign('message', '500 / 服务器内部错误');
         } else if ($e instanceof \sys\exception\ErrorException) {
             $sysView->assign('message', '系统错误 / ' . $e->getMessage());
         } else if ($e instanceof \sys\exception\RouteException) {
+            $response->code(404);
             $sysView->assign('message', '路由错误 / ' . $e->getMessage() . ' / ' . $e->getLocation());
         } else if ($e instanceof \sys\exception\ConfigException) {
             $sysView->assign('message', '配置错误 / ' . $e->getMessage() . ' / ' . $e->getLocation());
@@ -64,7 +70,7 @@ class Error
             $sysView->assign('line', $e->getLine());
             $sysView->assign('trace', $e->getTraceAsString());
         }
-        $sysView->send();
+        $response->send();
     }
 
 }

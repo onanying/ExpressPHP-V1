@@ -5,7 +5,7 @@
  * @author 刘健 <code.liu@qq.com>
  */
 
-namespace sys;
+namespace sys\response;
 
 class View
 {
@@ -15,6 +15,9 @@ class View
 
     // 模板地址
     protected $template;
+
+    // APP路径
+    protected $appPath = APP_PATH;
 
     public function __construct($template = null, $data = [])
     {
@@ -36,11 +39,11 @@ class View
         return $this;
     }
 
-    // 发送
-    public function send()
+    // 输出
+    public function output()
     {
         if (isset($this->template)) {
-            echo self::import(APP_PATH, $this->template, $this->data);
+            echo self::import($this->appPath, $this->template, $this->data);
         }
         exit;
     }

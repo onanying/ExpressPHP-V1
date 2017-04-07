@@ -17,7 +17,7 @@ class App
         $location = Route::match($pathinfo);
         Route::destruct();
         if (!$location) {
-            throw new \sys\exception\HttpException(404, '页面不存在');
+            throw new \sys\exception\HttpException(404, 'URL不存在');
         }
         return self::runController($location);
     }
@@ -40,7 +40,7 @@ class App
             throw new \sys\exception\RouteException('方法未找到', $namespace . '->' . $methodName . '()');
         }
         // 执行控制器的方法
-        return $controller->$methodName() ?: new View();
+        return Response::create($controller->$methodName());
     }
 
 }
