@@ -45,7 +45,7 @@ class Error
         // 清除无法接管的php系统语法错误
         ob_clean();
         // 生成视图
-        $sysView  = new SysView('template.exception');
+        $sysView  = SysView::create('template.exception');
         $response = Response::create($sysView);
         $response->code(500);
         if ($e instanceof \sys\exception\HttpException) {

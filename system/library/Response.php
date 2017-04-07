@@ -12,6 +12,7 @@ use sys\response\View;
 class Response
 {
 
+    // 响应对象
     private $class;
 
     public function __construct($class)
@@ -31,7 +32,6 @@ class Response
     // 设置HTTP状态码
     public function code($code)
     {
-
         $http = array(
             100 => 'HTTP/1.1 100 Continue',
             101 => 'HTTP/1.1 101 Switching Protocols',

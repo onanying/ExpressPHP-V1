@@ -18,4 +18,10 @@ class SysView extends View
         parent::__construct($template, $data);
     }
 
+    // 创建实例
+    public static function create($template = null, $data = [])
+    {
+        return new self($template, $data);
+    }
+
 }

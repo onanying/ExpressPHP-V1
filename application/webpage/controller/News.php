@@ -7,8 +7,8 @@
 
 namespace app\webpage\controller;
 
-use sys\View;
-use sys\Session;
+use sys\response\Json;
+use sys\response\View;
 
 class News
 {
@@ -20,17 +20,11 @@ class News
 
     public function article()
     {
-        Session::get('name');
+        //return View::create()->fetch('webpage.view.new_article')->assign('name', 'xiaohua')->assign('sex', 'w');
 
-        // $view = new View();
-        // $view->fetch('webpage.view.sample');
-        // $view->assign('name', 'xiaohua');
-        // $view->assign('sex', 'w');
-        // return $view;
+        //return View::create('webpage.view.new_article', ['name' => 'xiaohua', 'sex' => 'w']);
 
-        //return view()->fetch('webpage.view.sample')->assign('name', 'xiaohua')->assign('sex', 'w');
-
-        // return view('webpage.view.sample', ['name' => 'xiaohua', 'sex' => 'w']);
+        return Json::create(['errcode' => 0, 'errmsg' => 'ok']);
     }
 
 }

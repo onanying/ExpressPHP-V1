@@ -25,6 +25,12 @@ class View
         $this->data     = $data;
     }
 
+    // 创建实例
+    public static function create($template = null, $data = [])
+    {
+        return new self($template, $data);
+    }
+
     // 设置模板地址
     public function fetch($template)
     {

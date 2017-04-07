@@ -16,14 +16,17 @@ return [
     'session'                => [
 
         // 保存类型: files | redis | memcache
-        'save_handler'   => 'redis',
+        'save_handler'    => 'redis',
 
         // files保存路径: /tmp
         'files_save_path' => 'c:/tmp',
 
         // session有效期
-        'gc_maxlifetime' => 7200,
+        'gc_maxlifetime'  => 7200,
 
     ],
+
+    // json过滤null
+    'json_filter_null'       => false,
 
 ];
