@@ -40,7 +40,7 @@ class App
             throw new \sys\exception\RouteException('方法未找到', $namespace . '->' . $methodName . '()');
         }
         // 执行控制器的方法
-        return $controller->$methodName();
+        return $controller->$methodName() ?: new View();
     }
 
 }

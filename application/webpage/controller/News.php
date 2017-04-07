@@ -8,6 +8,7 @@
 namespace app\webpage\controller;
 
 use sys\View;
+use sys\Session;
 
 class News
 {
@@ -19,6 +20,8 @@ class News
 
     public function article()
     {
+        Session::get('name');
+
         // $view = new View();
         // $view->fetch('webpage.view.sample');
         // $view->assign('name', 'xiaohua');
@@ -27,7 +30,7 @@ class News
 
         //return view()->fetch('webpage.view.sample')->assign('name', 'xiaohua')->assign('sex', 'w');
 
-        return view('webpage.view.sample', ['name' => 'xiaohua', 'sex' => 'w']);
+        // return view('webpage.view.sample', ['name' => 'xiaohua', 'sex' => 'w']);
     }
 
 }

@@ -38,57 +38,33 @@ class Error
     // Exception Handler
     public static function appException($e)
     {
+        // 获取配置
+        $appDebug = Config::get('config.app_debug');
+        // 清除无法接管的php系统语法错误
         ob_clean();
+        // 生成视图
+        $sysView = new SysView('template.exception');
         if ($e instanceof \sys\exception\HttpException) {
-            echo $e->getStatusCode(), "\n";
-            echo $e->getMessage(), "\n";
-            echo $e->getFile(), "\n";
-            echo $e->getLine(), "\n";
-            echo $e->getTraceAsString(), "\n";
-            return;
+            $sysView->assign('message', $e->getStatusCode() . ' / ' . $e->getMessage());
+        } else if (!$appDebug) {
+            $sysView->assign('message', '500 / 服务器内部错误');
+        } else if ($e instanceof \sys\exception\ErrorException) {
+            $sysView->assign('message', '系统错误 / ' . $e->getMessage());
+        } else if ($e instanceof \sys\exception\RouteException) {
+            $sysView->assign('message', '路由错误 / ' . $e->getMessage() . ' / ' . $e->getLocation());
+        } else if ($e instanceof \sys\exception\ConfigException) {
+            $sysView->assign('message', '配置错误 / ' . $e->getMessage() . ' / ' . $e->getLocation());
+        } else if ($e instanceof \sys\exception\ViewException) {
+            $sysView->assign('message', '视图错误 / ' . $e->getMessage() . ' / ' . $e->getLocation());
+        } else {
+            $sysView->assign('message', '未定义错误 / ' . $e->getMessage());
         }
-        if (!Config::get('config.app_debug')) {
-            echo '500', "\n";
-            echo '服务器内部错误', "\n";
-            return;
+        if ($appDebug) {
+            $sysView->assign('file', $e->getFile());
+            $sysView->assign('line', $e->getLine());
+            $sysView->assign('trace', $e->getTraceAsString());
         }
-        if ($e instanceof \sys\exception\ErrorException) {
-            echo '系统错误', ":";
-            echo $e->getMessage(), "\n";
-            echo $e->getFile(), "\n";
-            echo $e->getLine(), "\n";
-            echo $e->getTraceAsString(), "\n";
-            return;
-        }
-        if ($e instanceof \sys\exception\RouteException) {
-            echo $e->getMessage(), "\n";
-            echo $e->getLocation(), "\n";
-            echo $e->getFile(), "\n";
-            echo $e->getLine(), "\n";
-            echo $e->getTraceAsString(), "\n";
-            return;
-        }
-        if ($e instanceof \sys\exception\ConfigException) {
-            echo $e->getMessage(), "\n";
-            echo $e->getLocation(), "\n";
-            echo $e->getFile(), "\n";
-            echo $e->getLine(), "\n";
-            echo $e->getTraceAsString(), "\n";
-            return;
-        }
-        if ($e instanceof \sys\exception\ViewException) {
-            echo $e->getMessage(), "\n";
-            echo $e->getLocation(), "\n";
-            echo $e->getFile(), "\n";
-            echo $e->getLine(), "\n";
-            echo $e->getTraceAsString(), "\n";
-            return;
-        }
-        echo '未定义错误', ":";
-        echo $e->getMessage(), "\n";
-        echo $e->getFile(), "\n";
-        echo $e->getLine(), "\n";
-        echo $e->getTraceAsString(), "\n";
+        $sysView->send();
     }
 
 }
