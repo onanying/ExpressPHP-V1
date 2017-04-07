@@ -24,7 +24,9 @@ class News
 
         //return View::create('webpage.view.new_article', ['name' => 'xiaohua', 'sex' => 'w']);
 
-        return Json::create(['errcode' => 0, 'errmsg' => 'ok']);
+        //return Json::create(['errcode' => 0, 'errmsg' => 'ok']);
+
+        return ['errcode' => 0, 'errmsg' => 'ok'];
     }
 
 }

@@ -17,7 +17,7 @@ class View
     protected $template;
 
     // APP路径
-    protected $appPath = APP_PATH;
+    private static $appPath = APP_PATH;
 
     public function __construct($template = null, $data = [])
     {
@@ -63,11 +63,19 @@ class View
         }
         // 生成视图
         $filePath = $appPath . str_replace('.', DS, $template) . '.php';
+        echo $filePath;
         if (!is_file($filePath)) {
             throw new \sys\exception\ViewException('视图文件不存在', $template);
         }
         include $filePath;
         return ob_get_clean();
+    }
+
+    // 判断视图是否存在
+    public static function has($template)
+    {
+        $filePath = self::$appPath . str_replace('.', DS, $template) . '.php';
+        return is_file($filePath);
     }
 
 }

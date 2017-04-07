@@ -7,6 +7,7 @@
 
 namespace sys;
 
+use sys\response\Json;
 use sys\response\View;
 
 class Response
@@ -24,7 +25,10 @@ class Response
     public static function create($class)
     {
         if (is_null($class)) {
-            $class = new View();
+            $class = View::create();
+        }
+        if (is_array($class)) {
+            $class = Json::create($class);
         }
         return new self($class);
     }

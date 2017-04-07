@@ -11,7 +11,7 @@ class SysView extends View
 {
 
     // APP路径
-    protected $appPath = SYS_PATH;
+    private static $appPath = APP_PATH;
 
     public function __construct($template = null, $data = [])
     {
