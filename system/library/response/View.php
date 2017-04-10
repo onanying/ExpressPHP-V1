@@ -11,13 +11,10 @@ class View
 {
 
     // 模板变量
-    protected $data = [];
+    private $data = [];
 
     // 模板地址
-    protected $template;
-
-    // APP路径
-    private static $appPath = APP_PATH;
+    private $template;
 
     public function __construct($template = null, $data = [])
     {
@@ -49,21 +46,20 @@ class View
     public function output()
     {
         if (isset($this->template)) {
-            echo self::import($this->appPath, $this->template, $this->data);
+            echo self::import($this->template, $this->data);
         }
         exit;
     }
 
     // 导入视图文件
-    protected static function import($appPath, $template, $data)
+    protected static function import($template, $data)
     {
         // 传入变量
         foreach ($data as $key => $value) {
             $$key = $value;
         }
         // 生成视图
-        $filePath = $appPath . str_replace('.', DS, $template) . '.php';
-        echo $filePath;
+        $filePath = APP_PATH . str_replace('.', DS, $template) . '.php';
         if (!is_file($filePath)) {
             throw new \sys\exception\ViewException('视图文件不存在', $template);
         }
@@ -74,7 +70,7 @@ class View
     // 判断视图是否存在
     public static function has($template)
     {
-        $filePath = self::$appPath . str_replace('.', DS, $template) . '.php';
+        $filePath = APP_PATH . str_replace('.', DS, $template) . '.php';
         return is_file($filePath);
     }
 

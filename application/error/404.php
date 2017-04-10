@@ -3,20 +3,9 @@
 <head>
       <title>404</title>
 </head>
-<body>
-<pre>
-########  ########.   ########     #######    ########           ###    ####;      ###       
-#         ##     ##   #t    i##   ##,   f##   #W    :##         t###   ######     L###       
-#         ##      #:  #t     W#  E#      i#i  ##     ;#        .#E##  .##  K##    #D##       
-#         ##      #:  #t     G#  ## .     #W  ##     :#        ## ##  D##   ##   ##.##       
-#         ##     EW   #t     ##  #t       ##  #W     #W        #t ##  ##E   ##  :#:.##       
-#######W  ########    ########   #:       D#  ########        W#  ##  ##D   ##  ## .##       
-#         ##ttttKW#   #Gtttj##j  #;       ##. ##ttttW##      fW   ##  ##D   ## D#   ##       
-#         ##     f#   #t     ##  #K       ##  #W     ##      ######## ##K   ## ########      
-#         ##     .#   #t     ##  ##       #t  ##     L#      ######## f##. ,## ########      
-#         ##      #   #t     ##   ##     ##   ##     j#           ##   ##. ##E     .##       
-########  ##      #.  #t     K#   i###W###    #W     ;#           ##   ######      .##       
-iitiiiii  tt      it  i:     :i,    G###;     ti      ij          ii    i##E       .it
-</pre>
+<body style="text-align: center;">
+
+<label style="font-size: 128px;font-family: Consolas;">404 Not Found</label>
+
 </body>
 </html>

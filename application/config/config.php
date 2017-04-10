@@ -29,11 +29,11 @@ return [
     // json过滤null
     'json_filter_null'        => false,
 
-    // http错误模板
-    'http_exception_template' => [
+    // http错误
+    'http_exception' => [
 
         // 自定义404错误: 视图地址 | 数组
-        404 => 'error.4041',
+        404 => ['errcode'=>-1, 'errmsg'=>'404 Not Found'],
 
     ],
 

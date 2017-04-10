@@ -7,10 +7,6 @@
 
 namespace sys;
 
-use sys\response\Json;
-use sys\response\SysView;
-use sys\response\View;
-
 class Error
 {
 
@@ -46,64 +42,56 @@ class Error
         $appDebug = Config::get('config.app_debug');
         // 清除无法接管的php系统语法错误
         ob_clean();
-        // http处理
+
+        // http异常处理
         if ($e instanceof \sys\exception\HttpException) {
-            self::httpException($e, $appDebug);
+            $httpExceptionTemplate = Config::get('config.http_exception');
+            $data['message']       = $e->getStatusCode() . ' / ' . $e->getMessage();
+            if ($appDebug) {
+                $data['file']  = $e->getFile();
+                $data['line']  = $e->getLine();
+                $data['trace'] = $e->getTraceAsString();
+            }
+            $statusCode = $e->getStatusCode();
+            $template   = $httpExceptionTemplate[$statusCode];
+            if (!empty($template)) {
+                if (is_array($template)) {
+                    $class = \sys\response\Json::create($template);
+                } else {
+                    $class = \sys\response\View::create($template, $data);
+                }
+            } else {
+                $class = \sys\response\Error::create($data);
+            }
+            $response = Response::create($class);
+            $response->code($statusCode);
+            $response->send();
         }
 
-        // 其他处理
-        $sysView  = SysView::create('template.exception');
-        $response = Response::create($sysView);
-        $response->code(500);
+        // 其他异常处理
+        $data['code'] = 500;
         if (!$appDebug) {
-            $sysView->assign('message', '500 / 服务器内部错误');
+            $data['message'] = '500 / 服务器内部错误';
         } else if ($e instanceof \sys\exception\ErrorException) {
-            $sysView->assign('message', '系统错误 / ' . $e->getMessage());
+            $data['message'] = '系统错误 / ' . $e->getMessage();
         } else if ($e instanceof \sys\exception\RouteException) {
-            $response->code(404);
-            $sysView->assign('message', '路由错误 / ' . $e->getMessage() . ' / ' . $e->getLocation());
+            $data['code']    = 404;
+            $data['message'] = '路由错误 / ' . $e->getMessage();
         } else if ($e instanceof \sys\exception\ConfigException) {
-            $sysView->assign('message', '配置错误 / ' . $e->getMessage() . ' / ' . $e->getLocation());
+            $data['message'] = '配置错误 / ' . $e->getMessage();
         } else if ($e instanceof \sys\exception\ViewException) {
-            $sysView->assign('message', '视图错误 / ' . $e->getMessage() . ' / ' . $e->getLocation());
+            $data['message'] = '视图错误 / ' . $e->getMessage();
         } else {
-            $sysView->assign('message', '未定义错误 / ' . $e->getMessage());
+            $data['message'] = '未定义错误 / ' . $e->getMessage();
         }
-        if ($appDebug) {
-            $sysView->assign('file', $e->getFile());
-            $sysView->assign('line', $e->getLine());
-            $sysView->assign('trace', $e->getTraceAsString());
-        }
-        $response->send();
-    }
-
-    // http异常处理
-    private static function httpException($e, $appDebug)
-    {
-        $httpExceptionTemplate = Config::get('config.http_exception_template');
-        $data['message']       = $e->getStatusCode() . ' / ' . $e->getMessage();
         if ($appDebug) {
             $data['file']  = $e->getFile();
             $data['line']  = $e->getLine();
             $data['trace'] = $e->getTraceAsString();
         }
-        $statusCode = $e->getStatusCode();
-        $template   = $httpExceptionTemplate[$statusCode];
-        if (!View::has($template)) {
-            self::appException(new \sys\exception\ViewException('视图文件不存在', $template));
-            return;
-        }
-        if (!empty($template)) {
-            if (is_array($template)) {
-                $class = Json::create($data);
-            } else {
-                $class = View::create($template, $data);
-            }
-        } else {
-            $class = SysView::create('template.exception', $data);
-        }
-        $response = Response::create($class);
-        $response->code($statusCode);
+        $error    = \sys\response\Error::create($data);
+        $response = Response::create($error);
+        $response->code($data['code']);
         $response->send();
     }
 
