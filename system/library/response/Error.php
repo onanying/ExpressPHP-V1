@@ -34,12 +34,13 @@ class Error
     // 导入模板文件
     protected static function import($data)
     {
+        $template = 'exception';
         // 传入变量
         foreach ($data as $key => $value) {
             $$key = $value;
         }
         // 生成视图
-        $filePath = TPL_PATH . str_replace('.', DS, 'exception') . '.php';
+        $filePath = TPL_PATH . str_replace('.', DS, $template) . '.php';
         if (!is_file($filePath)) {
             throw new \sys\exception\TemplateException('模板文件不存在', $template);
         }

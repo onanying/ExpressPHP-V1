@@ -76,11 +76,13 @@ class Error
             $data['message'] = '系统错误 / ' . $e->getMessage();
         } else if ($e instanceof \sys\exception\RouteException) {
             $data['code']    = 404;
-            $data['message'] = '路由错误 / ' . $e->getMessage();
+            $data['message'] = '路由错误 / ' . $e->getMessage() . ' / ' . $e->getLocation();
         } else if ($e instanceof \sys\exception\ConfigException) {
-            $data['message'] = '配置错误 / ' . $e->getMessage();
+            $data['message'] = '配置错误 / ' . $e->getMessage() . ' / ' . $e->getLocation();
         } else if ($e instanceof \sys\exception\ViewException) {
-            $data['message'] = '视图错误 / ' . $e->getMessage();
+            $data['message'] = '视图错误 / ' . $e->getMessage() . ' / ' . $e->getLocation();
+        } else if ($e instanceof \sys\exception\TemplateException) {
+            $data['message'] = '模板错误 / ' . $e->getMessage() . ' / ' . $e->getLocation();
         } else {
             $data['message'] = '未定义错误 / ' . $e->getMessage();
         }
@@ -94,5 +96,4 @@ class Error
         $response->code($data['code']);
         $response->send();
     }
-
 }

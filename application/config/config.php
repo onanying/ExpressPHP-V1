@@ -4,16 +4,16 @@
 return [
 
     // 应用调试模式
-    'app_debug'               => true,
+    'app_debug'              => true,
 
     // 自动加载配置文件
-    'autoload_config'         => ['mysql', 'redis', 'memcache'],
+    'autoload_config'        => ['mysql', 'redis', 'memcache'],
 
     // 默认过滤方法: htmlspecialchars | strip_tags
-    'request_default_filter'  => 'htmlspecialchars',
+    'request_default_filter' => 'htmlspecialchars',
 
     // session配置
-    'session'                 => [
+    'session'                => [
 
         // 保存类型: files | redis | memcache
         'save_handler'    => 'redis',
@@ -27,13 +27,15 @@ return [
     ],
 
     // json过滤null
-    'json_filter_null'        => false,
+    'json_filter_null'       => false,
 
     // http错误
-    'http_exception' => [
+    'http_exception'         => [
 
         // 自定义404错误: 视图地址 | 数组
-        404 => ['errcode'=>-1, 'errmsg'=>'404 Not Found'],
+        // 404 => 'error.404',
+        // 404 => ['errcode'=>-1, 'errmsg'=>'404 Not Found'],
+        404 => '',
 
     ],
 
