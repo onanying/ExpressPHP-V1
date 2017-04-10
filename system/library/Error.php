@@ -58,6 +58,10 @@ class Error
                 if (is_array($template)) {
                     $class = \sys\response\Json::create($template);
                 } else {
+                    if (!\sys\response\View::has($template)) {
+                        self::appException(new \sys\exception\ViewException('视图文件不存在', $template));
+                        return;
+                    }
                     $class = \sys\response\View::create($template, $data);
                 }
             } else {
@@ -96,4 +100,5 @@ class Error
         $response->code($data['code']);
         $response->send();
     }
+
 }
