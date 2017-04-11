@@ -7,8 +7,7 @@
 
 namespace app\webpage\controller;
 
-use sys\response\Json;
-use sys\response\View;
+use sys\Mysql;
 
 class News
 {
@@ -26,7 +25,13 @@ class News
 
         //return Json::create(['errcode' => 0, 'errmsg' => 'ok']);
 
-        return ['errcode' => 0, 'errmsg' => 'ok'];
+        //return ['errcode' => 0, 'errmsg' => 'ok'];
+        $data = [
+            'uid'    => [1, 2, 3, 4, 5, 6, 'd55sdfsdf21'],
+            'status' => [0, 1],
+        ];
+        $stmt = Mysql::query('select * from member where uid in (:uid) and status in (:status)', $data);
+        var_dump($stmt->fetchAll());
     }
 
 }

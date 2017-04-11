@@ -11,9 +11,9 @@ return [
     // 数据库用户名
     'username' => 'root',
     // 数据库密码
-    'password' => '',
+    'password' => '123456',
     // 数据库名
-    'database' => 'miniphp',
+    'database' => 'test',
     // 数据库编码默认采用utf8
     'charset' => 'utf8',
     // 数据库表前缀
