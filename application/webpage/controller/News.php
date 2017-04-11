@@ -26,12 +26,15 @@ class News
         //return Json::create(['errcode' => 0, 'errmsg' => 'ok']);
 
         //return ['errcode' => 0, 'errmsg' => 'ok'];
+        
         $data = [
-            'uid'    => [1, 2, 3, 4, 5, 6, 'd55sdfsdf21'],
-            'status' => [0, 1],
+            'uid'    => [1, 2, 3, 4, 5, 6],
         ];
-        $stmt = Mysql::query('select * from member where uid in (:uid) and status in (:status)', $data);
-        var_dump($stmt->fetchAll());
+        $stmt = Mysql::query('select * from member where uid in (:uid)', $data);
+        print_r($stmt->fetchAll());
+
+
+
     }
 
 }
