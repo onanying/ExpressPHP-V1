@@ -90,9 +90,11 @@ class Mysql
             $func();
             // 提交事务
             self::commit();
+            return true;
         } catch (\Exception $e) {
             // 回滚事务
             self::rollBack();
+            return false;
         }
     }
 

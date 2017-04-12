@@ -40,6 +40,8 @@ class Error
     {
         // 获取配置
         $appDebug = Config::get('config.app_debug');
+        // 清空无法接管的系统错误
+        ob_clean();
 
         // http异常处理
         if ($e instanceof \sys\exception\HttpException) {

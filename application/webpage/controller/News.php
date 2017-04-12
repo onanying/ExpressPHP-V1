@@ -7,10 +7,15 @@
 
 namespace app\webpage\controller;
 
-use sys\Mysql;
+use app\model\UsersModel;
 
 class News
 {
+
+    public function __construct()
+    {
+        $this->UsersModel = new UsersModel();
+    }
 
     public function index()
     {
@@ -19,45 +24,17 @@ class News
 
     public function article()
     {
+        $uid    = 100;
+        $number = 1;
+        $data   = $this->UsersModel->getInfo($uid);
+        $data   = $this->UsersModel->getInfoAll();
+        //$this->UsersModel->minusCreditsManual($uid, $number);
+
         //return View::create()->fetch('webpage.view.news_article')->assign('name', 'xiaohua')->assign('sex', 'w');
-
         //return View::create('webpage.view.news_article', ['name' => 'xiaohua', 'sex' => 'w']);
-
         //return Json::create(['errcode' => 0, 'errmsg' => 'ok']);
 
-        //return ['errcode' => 0, 'errmsg' => 'ok'];
-
-        /*
-        $data = [
-            'uid'    => [1, 2, 3, 4, 5, 6],
-        ];
-        $stmt = Mysql::query('select * from member where uid in (:uid)', $data);
-        var_dump($stmt->fetch());
-        var_dump($stmt->fetchObject());
-        var_dump($stmt->fetchAll());
-         */
-
-        /*
-        Mysql::transaction(function () {
-            $params = ['uid' => $uid, 'number' => $number];
-            Mysql::execute('update `money` set number = number - :number where uid = :uid', $params);
-            Mysql::execute('INSERT INTO `history`(`uid`, `number`) VALUES(:uid, :number)', $params);
-        });
-         */
-
-        Mysql::beginTransaction();
-        try {
-            $params = ['uid' => 101, 'number' => 1];
-            Mysql::execute('update `money` set number = number - :number where uid = :uid', $params);
-            Mysql::execute('INSERT INTO `history`(`uid`, `number`) VALUES(:uid, :number)', $params);
-            // 提交事务
-            Mysql::commit();
-        } catch (\Exception $e) {
-            // 回滚事务
-            Mysql::rollBack();
-        }
-
-        echo 'ok';
+        return ['errCode' => 0, 'errMsg' => 'ok', 'data' => $data];
     }
 
 }
