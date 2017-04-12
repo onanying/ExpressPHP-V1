@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Mysql类
+ * Statement类
  * @author 刘健 <code.liu@qq.com>
  */
 
 namespace sys\mysql;
 
 use sys\Config;
-use sys\Mysql;
 
 class Statement
 {
@@ -23,7 +22,7 @@ class Statement
     {
         $this->PDOStatement = $PDOStatement;
         $appConf            = Config::get('mysql');
-        if ($appConf['column_name_mode'] == 'camelcase') {
+        if ($appConf['force_column_name'] == 'camelcase') {
             $this->isCamelCase = true;
         }
     }
@@ -61,7 +60,7 @@ class Statement
         $isArray   = is_array($result);
         $newResult = [];
         foreach ($result as $key => $value) {
-            $newResult[Mysql::camelCase($key)] = $value;
+            $newResult[self::toCamelCase($key)] = $value;
         }
         return $isArray ? $newResult : (object) $newResult;
     }
@@ -77,7 +76,7 @@ class Statement
         $isArray = is_array($row);
         $column  = [];
         foreach ($row as $key => $value) {
-            $column[$key] = Mysql::camelCase($key);
+            $column[$key] = self::toCamelCase($key);
         }
         // 重构数据
         $newResult = [];
@@ -89,6 +88,14 @@ class Statement
             $newResult[] = $isArray ? $tmp : (object) $tmp;
         }
         return $newResult;
+    }
+
+    // 将下划线命名转换为驼峰式命名
+    private static function toCamelCase($name, $ucfirst = false)
+    {
+        $name = ucwords(str_replace('_', ' ', $name));
+        $name = str_replace(' ', '', lcfirst($name));
+        return $ucfirst ? ucfirst($name) : $name;
     }
 
 }
