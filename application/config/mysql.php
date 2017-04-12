@@ -29,12 +29,12 @@ return [
      */
 
     // 默认的提取模式: array | object
-    'default_fetch'    => 'array',
-
-    // 将 NULL 转换成空字符串
-    'null_to_string'   => false,
+    'default_fetch'    => 'object',
 
     // 列名模式: natural | camelcase | lower | upper
     'column_name_mode' => 'camelcase',
+
+    // 将 NULL 转换成空字符串
+    'null_to_string'   => false,
 
 ];

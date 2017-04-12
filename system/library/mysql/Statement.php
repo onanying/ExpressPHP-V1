@@ -7,6 +7,9 @@
 
 namespace sys\mysql;
 
+use sys\Config;
+use sys\Mysql;
+
 class Statement
 {
 
@@ -19,7 +22,7 @@ class Statement
     public function __construct($PDOStatement)
     {
         $this->PDOStatement = $PDOStatement;
-        $appConf            = Config::get('config.mysql');
+        $appConf            = Config::get('mysql');
         if ($appConf['column_name_mode'] == 'camelcase') {
             $this->isCamelCase = true;
         }
@@ -28,7 +31,18 @@ class Statement
     // 调用方法
     public function __call($method, $args = [])
     {
-        return call_user_func_array([$this->PDOStatement, $method], $args);
+        $result = call_user_func_array([$this->PDOStatement, $method], $args);
+        // 驼峰转换
+        if ($this->isCamelCase && in_array($method, ['fetch', 'fetchObject', 'fetchAll'])) {
+            if (is_array($result) && isset($result[0]) && !is_scalar($result[0])) {
+                // 二维
+                $result = self::convertTwodimensional($result);
+            } else {
+                // 一维
+                $result = self::convertLinear($result);
+            }
+        }
+        return $result;
     }
 
     // 获取属性
@@ -37,8 +51,23 @@ class Statement
         return $this->PDOStatement->$name;
     }
 
-    // 转换结果集
-    private static function convert($result)
+    // 转换一维结果集
+    private static function convertLinear($result)
+    {
+        if (empty($result)) {
+            return $result;
+        }
+        // 重构数据
+        $isArray   = is_array($result);
+        $newResult = [];
+        foreach ($result as $key => $value) {
+            $newResult[Mysql::camelCase($key)] = $value;
+        }
+        return $isArray ? $newResult : (object) $newResult;
+    }
+
+    // 转换二维结果集
+    private static function convertTwodimensional($result)
     {
         if (empty($result)) {
             return $result;
@@ -48,7 +77,7 @@ class Statement
         $isArray = is_array($row);
         $column  = [];
         foreach ($row as $key => $value) {
-            $column[$key] = self::convertUnderline($key);
+            $column[$key] = Mysql::camelCase($key);
         }
         // 重构数据
         $newResult = [];
@@ -60,14 +89,6 @@ class Statement
             $newResult[] = $isArray ? $tmp : (object) $tmp;
         }
         return $newResult;
-    }
-
-    // 将下划线命名转换为驼峰式命名
-    public static function convertUnderline($str, $ucfirst = false)
-    {
-        $str = ucwords(str_replace('_', ' ', $str));
-        $str = str_replace(' ', '', lcfirst($str));
-        return $ucfirst ? ucfirst($str) : $str;
     }
 
 }

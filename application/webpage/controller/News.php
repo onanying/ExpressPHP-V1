@@ -31,8 +31,9 @@ class News
             'uid'    => [1, 2, 3, 4, 5, 6],
         ];
         $stmt = Mysql::query('select * from member where uid in (:uid)', $data);
-        print_r($stmt->fetchAll());
-
+        var_dump($stmt->fetch());
+        var_dump($stmt->fetchObject());
+        var_dump($stmt->fetchAll());
 
 
     }

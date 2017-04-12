@@ -32,13 +32,13 @@ class Mysql
             ];
             switch ($conf['column_name_mode']) {
                 case 'lower':
-                    $pdoConf[\PDO::ATTR_CASE] = \PDO::CASE_LOWER
+                    $pdoConf[\PDO::ATTR_CASE] = \PDO::CASE_LOWER;
                     break;
                 case 'upper':
-                    $pdoConf[\PDO::ATTR_CASE] = \PDO::CASE_UPPER
+                    $pdoConf[\PDO::ATTR_CASE] = \PDO::CASE_UPPER;
                     break;
                 default:
-                    $pdoConf[\PDO::ATTR_CASE] = \PDO::CASE_NATURAL
+                    $pdoConf[\PDO::ATTR_CASE] = \PDO::CASE_NATURAL;
                     break;
             }
             self::$pdo = new \PDO(
@@ -89,6 +89,14 @@ class Mysql
     public static function execute($sql, $data = [])
     {
         return self::query($sql, $data)->rowCount();
+    }
+
+    // 将下划线命名转换为驼峰式命名
+    public static function camelCase($name, $ucfirst = false)
+    {
+        $name = ucwords(str_replace('_', ' ', $name));
+        $name = str_replace(' ', '', lcfirst($name));
+        return $ucfirst ? ucfirst($name) : $name;
     }
 
 }
