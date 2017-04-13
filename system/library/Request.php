@@ -59,7 +59,7 @@ class Request
     }
 
     // 获取 $_FILES 变量
-    public static function file($name = null)
+    public static function files($name = null)
     {
         return self::element($_FILES, $name);
     }
@@ -89,7 +89,7 @@ class Request
     private static function getFilter($filter)
     {
         if (is_null($filter)) {
-            $conf   = Config::get('config.request');
+            $conf = Config::get('config.request');
             $filter = $conf['default_filter'];
         }
         return $filter;
@@ -99,7 +99,7 @@ class Request
     private static function filterValue($array, $filter)
     {
         $isArray = is_array($array);
-        $data    = $isArray ? $array : [$array];
+        $data = $isArray ? $array : [$array];
         foreach ($data as $key => $value) {
             switch ($filter) {
                 case 'htmlspecialchars':
