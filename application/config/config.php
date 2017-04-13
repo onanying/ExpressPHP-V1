@@ -28,6 +28,9 @@ return [
     // json配置
     'json' => [
 
+        // jsonp 回调函数名
+        'jsonp_callback' => 'callback',
+
         // 将 NULL 转换成空字符串
         'null_to_string' => false,
 

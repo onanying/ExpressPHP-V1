@@ -28,7 +28,14 @@ class Response
             $class = View::create();
         }
         if (is_array($class)) {
-            $class = Json::create($class);
+            switch (Config::get('config.request.default_return_type')) {
+                case 'jsonp':
+                    $class = Jsonp::create($class);
+                    break;
+                default:
+                    $class = Json::create($class);
+                    break;
+            }
         }
         return new self($class);
     }
