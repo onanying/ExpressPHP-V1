@@ -50,7 +50,7 @@ class Route
                     $location = self::standardMatch($rule, $pathinfo);
                     break;
                 case self::BIND_METHOD:
-                    $location = self::BIND_METHODMatch($rule, $pathinfo);
+                    $location = self::bindMethodMatch($rule, $pathinfo);
                     break;
             }
             if ($location) {
@@ -71,12 +71,12 @@ class Route
             // 保存路由变量
             $GLOBALS['route'] = $args;
             // 返回解析后的控制器路径
-            return self::convertPath($rule['path'], $args);
+            return $rule['path'];
         }
     }
 
-    // 控制模式匹配
-    private static function BIND_METHODMatch($rule, $pathinfo)
+    // 绑定方法模式匹配
+    private static function bindMethodMatch($rule, $pathinfo)
     {
         foreach ($rule['rule']['pattern'] as $pattern) {
             if (preg_match($pattern, $pathinfo, $matches)) {
@@ -104,7 +104,7 @@ class Route
                 return self::standardConvertRule($rule);
                 break;
             case self::BIND_METHOD:
-                return self::BIND_METHODConvertRule($rule);
+                return self::bindMethodConvertRule($rule);
                 break;
         }
     }
@@ -135,8 +135,8 @@ class Route
         ];
     }
 
-    // 控制模式转换
-    private static function BIND_METHODConvertRule($rule)
+    // 绑定方法模式转换
+    private static function bindMethodConvertRule($rule)
     {
         $endMark  = self::fetchEndMark($rule);
         $rule     = substr($rule, 0, -1);
@@ -190,7 +190,7 @@ class Route
     public static function destruct()
     {
         self::$patterns = null;
-        self::$rules = null;
+        self::$rules    = null;
     }
 
 }

@@ -17,6 +17,21 @@ return [
 
     ],
 
+    // response配置
+    'response'        => [
+
+        // 默认返回类型
+        'default_return_type' => 'json',
+
+    ],
+
+    // json配置
+    'json'            => [
+
+        // 将 NULL 转换成空字符串
+        'null_to_string' => false,
+    ],
+
     // session配置
     'session'         => [
 
@@ -29,13 +44,6 @@ return [
         // session有效期
         'gc_maxlifetime'  => 7200,
 
-    ],
-
-    // json配置
-    'json'            => [
-
-        // 将 NULL 转换成空字符串
-        'null_to_string' => false,
     ],
 
     // http错误
