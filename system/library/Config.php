@@ -30,49 +30,59 @@ class Config
     }
 
     // 读取配置
-    public static function get($argsPath = '')
+    public static function get($location = '')
     {
         // 全部配置
-        if ($argsPath == '') {
+        if ($location == '') {
             if (isset($GLOBALS['config'])) {
                 return $GLOBALS['config'];
             }
         }
-        $args   = explode('.', $argsPath);
-        $length = count($args);
+        $array = explode('.', $location);
+        $length = count($array);
         // 一级配置
         if ($length == 1) {
-            $fileName = $args[0];
-            if (isset($GLOBALS['config'][$fileName])) {
-                return $GLOBALS['config'][$fileName];
+            list($oneLevel) = $array;
+            if (isset($GLOBALS['config'][$oneLevel])) {
+                return $GLOBALS['config'][$oneLevel];
             }
         }
         // 二级配置
         if ($length == 2) {
-            $fileName = $args[0];
-            $argsName = $args[1];
-            if (isset($GLOBALS['config'][$fileName][$argsName])) {
-                return $GLOBALS['config'][$fileName][$argsName];
+            list($oneLevel, $secondLevel) = $array;
+            if (isset($GLOBALS['config'][$oneLevel][$secondLevel])) {
+                return $GLOBALS['config'][$oneLevel][$secondLevel];
+            }
+        }
+        // 三级配置
+        if ($length == 3) {
+            list($oneLevel, $secondLevel, $threeLevel) = $array;
+            if (isset($GLOBALS['config'][$oneLevel][$secondLevel][$threeLevel])) {
+                return $GLOBALS['config'][$oneLevel][$secondLevel][$threeLevel];
             }
         }
         throw new \sys\exception\ConfigException('配置项不存在', $argsPath);
     }
 
     // 判断配置是否存在
-    public static function has($argsPath = '')
+    public static function has($location = '')
     {
-        $args   = explode('.', $argsPath);
-        $length = count($args);
+        $array = explode('.', $location);
+        $length = count($array);
         // 一级配置
         if ($length == 1) {
-            $fileName = $args[0];
-            return isset($GLOBALS['config'][$fileName]) ? true : false;
+            list($oneLevel) = $array;
+            return isset($GLOBALS['config'][$oneLevel]) ? true : false;
         }
         // 二级配置
         if ($length == 2) {
-            $fileName = $args[0];
-            $argsName = $args[1];
-            return isset($GLOBALS['config'][$fileName][$argsName]) ? true : false;
+            list($oneLevel, $secondLevel) = $array;
+            return isset($GLOBALS['config'][$oneLevel][$secondLevel]) ? true : false;
+        }
+        // 三级配置
+        if ($length == 3) {
+            list($oneLevel, $secondLevel, $threeLevel) = $array;
+            return isset($GLOBALS['config'][$oneLevel][$secondLevel][$threeLevel]) ? true : false;
         }
         return false;
     }
