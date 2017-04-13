@@ -13,7 +13,7 @@ ExpressPHP是一个极简的 web 开发MVC框架，和ThinkPHP5一样现代化�
 * APP架构灵活，由你自己来定义；
 * 框架架构简单，代码量小，能很容易读懂框架源代码；
 
-> 那 ExpressPHP 就是为你而准备，赶紧开始吧
+>[info] 那 ExpressPHP 就是为你而准备，赶紧开始吧
 
 ## ExpressPHP完全开发手册
 

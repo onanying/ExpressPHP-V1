@@ -30,7 +30,8 @@ class Json
     public function output()
     {
         // 过滤null
-        if (Config::get('config.json_filter_null')) {
+        $conf = Config::get('config.json');
+        if ($conf['null_to_string']) {
             $this->array = self::filterNull($this->array);
         }
         // 设置Content-Type
