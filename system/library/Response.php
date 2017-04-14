@@ -37,6 +37,7 @@ class Response
             }
         }
         $this->body = $body;
+        return $this;
     }
 
     // 设置HTTP状态码
