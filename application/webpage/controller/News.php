@@ -8,13 +8,14 @@
 namespace app\webpage\controller;
 
 use app\model\Users;
+use sys\response\View;
 
 class News
 {
 
     public function __construct()
     {
-        $this->usersModel = new Users();
+        $this->users = new Users();
     }
 
     public function index()
@@ -24,17 +25,26 @@ class News
 
     public function article()
     {
-        $uid    = 100;
-        $number = 1;
-        $data   = $this->usersModel->getInfo($uid);
-        $data   = $this->usersModel->getInfoAll();
-        //$this->usersModel->minusCreditsManual($uid, $number);
 
-        //return View::create()->fetch('webpage.view.news_article')->assign('name', 'xiaohua')->assign('sex', 'w');
-        //return View::create('webpage.view.news_article', ['name' => 'xiaohua', 'sex' => 'w']);
-        //return Json::create(['errcode' => 0, 'errmsg' => 'ok']);
+        // return 'hello world';
 
-        return ['errCode' => 0, 'errMsg' => 'ok', 'data' => $data];
+        // $uid    = 100;
+        // $number = 1;
+        // $data   = $this->users->getInfo($uid);
+        // $data   = $this->users->getInfoAll();
+        // $this->users->minusCreditsManual($uid, $number);
+
+        // return View::create()->fetch('webpage.view.news.article')->assign('name', 'xiaohua')->assign('sex', 'w');
+        // return View::create('webpage.view.news.article', ['name' => 'xiaohua', 'sex' => 'w']);
+        $view = new View();
+        $view->fetch('webpage.view.news.article');
+        $view->assign('name', 'xiaohua');
+        $view->assign('sex', 'w');
+        return $view;
+
+        // return Json::create(['errcode' => 0, 'errmsg' => 'ok']);
+
+        // return ['errCode' => 0, 'errMsg' => 'ok', 'data' => $data];
     }
 
 }

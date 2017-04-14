@@ -20,8 +20,8 @@ return [
     // response配置
     'response' => [
 
-        // 默认返回类型: json | xml
-        'default_return_type' => 'json',
+        // 数组默认转换类型: json | jsonp | xml
+        'array_default_convert' => 'json',
 
     ],
 

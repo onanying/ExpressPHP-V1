@@ -29,13 +29,6 @@ class Response
 
     public function setBody($body)
     {
-        if (is_array($body)) {
-            switch (Config::get('config.response.default_return_type')) {
-                default:
-                    $body = Json::create($body);
-                    break;
-            }
-        }
         $this->body = $body;
         return $this;
     }
@@ -91,8 +84,19 @@ class Response
     // 输出
     public function send()
     {
-        if (isset($this->body)) {
-            $this->body->output();
+        $body = $this->body;
+        if (is_array($body)) {
+            switch (Config::get('config.response.array_default_convert')) {
+                default:
+                    $body = Json::create($body);
+                    break;
+            }
+        }
+        if (is_object($body)) {
+            $body->output();
+        }
+        if (is_scalar($body)) {
+            echo $body;
         }
     }
 
