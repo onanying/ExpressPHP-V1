@@ -7,14 +7,14 @@
 
 namespace app\webpage\controller;
 
-use app\model\UsersModel;
+use app\model\Users;
 
 class News
 {
 
     public function __construct()
     {
-        $this->UsersModel = new UsersModel();
+        $this->usersModel = new Users();
     }
 
     public function index()
@@ -26,9 +26,9 @@ class News
     {
         $uid    = 100;
         $number = 1;
-        $data   = $this->UsersModel->getInfo($uid);
-        $data   = $this->UsersModel->getInfoAll();
-        //$this->UsersModel->minusCreditsManual($uid, $number);
+        $data   = $this->usersModel->getInfo($uid);
+        $data   = $this->usersModel->getInfoAll();
+        //$this->usersModel->minusCreditsManual($uid, $number);
 
         //return View::create()->fetch('webpage.view.news_article')->assign('name', 'xiaohua')->assign('sex', 'w');
         //return View::create('webpage.view.news_article', ['name' => 'xiaohua', 'sex' => 'w']);

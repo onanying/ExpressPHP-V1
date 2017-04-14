@@ -61,7 +61,7 @@ class Config
                 return $GLOBALS['config'][$oneLevel][$secondLevel][$threeLevel];
             }
         }
-        throw new \sys\exception\ConfigException('配置项不存在', $argsPath);
+        throw new \sys\exception\ConfigException('配置项不存在', $location);
     }
 
     // 判断配置是否存在
