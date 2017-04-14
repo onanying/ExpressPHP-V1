@@ -22,6 +22,14 @@ class App
         return self::runController($location);
     }
 
+    // 将蛇形命名转换为驼峰命名
+    public static function snakeToCamel($name, $ucfirst = false)
+    {
+        $name = ucwords(str_replace('_', ' ', $name));
+        $name = str_replace(' ', '', lcfirst($name));
+        return $ucfirst ? ucfirst($name) : $name;
+    }
+
     // 执行控制器
     private static function runController($location)
     {
@@ -36,11 +44,11 @@ class App
         }
         $controller = $reflect->newInstanceArgs();
         // 判断方法是否存在
-        if (!method_exists($controller, $methodName)) {
-            throw new \sys\exception\RouteException('方法未找到', $namespace . '->' . $methodName . '()');
+        if (method_exists($controller, $methodName) || method_exists($controller, $methodName = self::snakeToCamel($methodName))) {
+            // 执行控制器的方法
+            return Response::instance()->setBody($controller->$methodName());
         }
-        // 执行控制器的方法
-        return Response::instance()->setBody($controller->$methodName());
+        throw new \sys\exception\RouteException('方法未找到', $namespace . '->' . $methodName . '()');
     }
 
 }

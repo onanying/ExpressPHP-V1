@@ -60,7 +60,7 @@ class Statement
         $isArray   = is_array($result);
         $newResult = [];
         foreach ($result as $key => $value) {
-            $newResult[self::toCamelCase($key)] = $value;
+            $newResult[\sys\App::snakeToCamel($key)] = $value;
         }
         return $isArray ? $newResult : (object) $newResult;
     }
@@ -76,7 +76,7 @@ class Statement
         $isArray = is_array($row);
         $column  = [];
         foreach ($row as $key => $value) {
-            $column[$key] = self::toCamelCase($key);
+            $column[$key] = \sys\App::snakeToCamel($key);
         }
         // 重构数据
         $newResult = [];
@@ -88,14 +88,6 @@ class Statement
             $newResult[] = $isArray ? $tmp : (object) $tmp;
         }
         return $newResult;
-    }
-
-    // 将下划线命名转换为驼峰式命名
-    private static function toCamelCase($name, $ucfirst = false)
-    {
-        $name = ucwords(str_replace('_', ' ', $name));
-        $name = str_replace(' ', '', lcfirst($name));
-        return $ucfirst ? ucfirst($name) : $name;
     }
 
 }
