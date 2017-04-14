@@ -45,25 +45,23 @@ class View
     // 输出
     public function output()
     {
-        if (isset($this->template)) {
-            echo self::import($this->template, $this->data);
-        }
+        echo self::import($this->template, $this->data);
         exit;
     }
 
     // 导入视图文件
-    protected static function import($template, $data)
+    protected static function import($__template__, $__data__)
     {
         // 传入变量
-        foreach ($data as $key => $value) {
-            $$key = $value;
+        foreach ($__data__ as $__key__ => $__value__) {
+            $$__key__ = $__value__;
         }
         // 生成视图
-        $filePath = APP_PATH . str_replace('.', DS, $template) . '.php';
-        if (!is_file($filePath)) {
-            throw new \sys\exception\ViewException('视图文件不存在', $template);
+        $__filepath__ = APP_PATH . str_replace('.', DS, $__template__) . '.php';
+        if (!is_file($__filepath__)) {
+            throw new \sys\exception\ViewException('视图文件不存在', $__template__);
         }
-        include $filePath;
+        include $__filepath__;
         return ob_get_clean();
     }
 

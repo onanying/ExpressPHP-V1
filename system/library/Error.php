@@ -56,18 +56,18 @@ class Error
             $template   = $httpExceptionTemplate[$statusCode];
             if (!empty($template)) {
                 if (is_array($template)) {
-                    $class = \sys\response\Json::create($template);
+                    $body = \sys\response\Json::create($template);
                 } else {
                     if (!\sys\response\View::has($template)) {
                         self::appException(new \sys\exception\ViewException('视图文件不存在', $template));
                         return;
                     }
-                    $class = \sys\response\View::create($template, $data);
+                    $body = \sys\response\View::create($template, $data);
                 }
             } else {
-                $class = \sys\response\Error::create($data);
+                $body = \sys\response\Error::create($data);
             }
-            $response = Response::create($class);
+            $response = Response::instance()->setBody($body);
             $response->code($statusCode);
             $response->send();
         }
@@ -96,7 +96,7 @@ class Error
             $data['trace'] = $e->getTraceAsString();
         }
         $error    = \sys\response\Error::create($data);
-        $response = Response::create($error);
+        $response = Response::instance()->setBody($error);
         $response->code($data['code']);
         $response->send();
     }

@@ -20,7 +20,7 @@ return [
     // response配置
     'response' => [
 
-        // 默认返回类型: json | jsonp | xml
+        // 默认返回类型: json | xml
         'default_return_type' => 'json',
 
     ],

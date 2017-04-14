@@ -8,36 +8,35 @@
 namespace sys;
 
 use sys\response\Json;
-use sys\response\View;
 
 class Response
 {
 
-    // 响应对象
-    private $class;
+    // 自己的引用
+    private static $instance;
 
-    public function __construct($class)
+    // 响应主体
+    private $body;
+
+    // 获取单例
+    public static function instance()
     {
-        $this->class = $class;
+        if (!isset(self::$instance)) {
+            return new self();
+        }
+        return self::$instance;
     }
 
-    // 创建实例
-    public static function create($class)
+    public function setBody($body)
     {
-        if (is_null($class)) {
-            $class = View::create();
-        }
-        if (is_array($class)) {
+        if (is_array($body)) {
             switch (Config::get('config.response.default_return_type')) {
-                case 'jsonp':
-                    $class = Jsonp::create($class);
-                    break;
                 default:
-                    $class = Json::create($class);
+                    $body = Json::create($body);
                     break;
             }
         }
-        return new self($class);
+        $this->body = $body;
     }
 
     // 设置HTTP状态码
@@ -91,7 +90,9 @@ class Response
     // 输出
     public function send()
     {
-        $this->class->output();
+        if (isset($this->body)) {
+            $this->body->output();
+        }
     }
 
 }
