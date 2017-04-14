@@ -59,7 +59,7 @@ class Request
     }
 
     // 获取 $_FILES 变量
-    public static function files($name = null)
+    public static function file($name = null)
     {
         return self::element($_FILES, $name);
     }
