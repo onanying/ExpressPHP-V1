@@ -68,7 +68,7 @@ class Mysql
     }
 
     // 自动事务
-    public static function transaction($func)
+    public static function transaction($func, $debug = false)
     {
         self::beginTransaction();
         try {
@@ -79,6 +79,10 @@ class Mysql
         } catch (\Exception $e) {
             // 回滚事务
             self::rollBack();
+            // 调试
+            if ($debug) {
+                throw $e;
+            }
             return false;
         }
     }
