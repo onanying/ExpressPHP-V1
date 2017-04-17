@@ -21,10 +21,7 @@ class Statement
     public function __construct($PDOStatement)
     {
         $this->PDOStatement = $PDOStatement;
-        $appConf            = Config::get('mysql');
-        if ($appConf['force_column_name'] == 'camelcase') {
-            $this->isCamelCase = true;
-        }
+        $this->isCamelCase  = Config::get('mysql.case_camel');
     }
 
     // 调用方法

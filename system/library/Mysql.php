@@ -22,34 +22,19 @@ class Mysql
     private static $isTransaction;
 
     // 连接
-    public static function connect($conf = null)
+    public static function connect()
     {
         if (!isset(self::$pdo)) {
-            if (is_null($conf)) {
-                $conf = Config::get('mysql');
-            }
+            $conf    = Config::get('mysql');
             $pdoConf = [
-                \PDO::ATTR_EMULATE_PREPARES   => false,
-                \PDO::ATTR_ERRMODE            => \PDO::ERRMODE_EXCEPTION,
-                \PDO::ATTR_DEFAULT_FETCH_MODE => $conf['default_fetch'] == 'object' ? \PDO::FETCH_OBJ : \PDO::FETCH_ASSOC,
-                \PDO::ATTR_ORACLE_NULLS       => $conf['null_to_string'] ? \PDO::NULL_TO_STRING : \PDO::NULL_NATURAL,
+                \PDO::ATTR_EMULATE_PREPARES => false,
+                \PDO::ATTR_ERRMODE          => \PDO::ERRMODE_EXCEPTION,
             ];
-            switch ($conf['force_column_name']) {
-                case 'lower':
-                    $pdoConf[\PDO::ATTR_CASE] = \PDO::CASE_LOWER;
-                    break;
-                case 'upper':
-                    $pdoConf[\PDO::ATTR_CASE] = \PDO::CASE_UPPER;
-                    break;
-                default:
-                    $pdoConf[\PDO::ATTR_CASE] = \PDO::CASE_NATURAL;
-                    break;
-            }
             self::$pdo = new \PDO(
                 'mysql:host=' . $conf['hostname'] . ';port=' . $conf['hostport'] . ';charset=' . $conf['charset'] . ';dbname=' . $conf['database'],
                 $conf['username'],
                 $conf['password'],
-                $pdoConf
+                $pdoConf += $conf['attribute']
             );
             self::$rollbackZeroAffected = $conf['transaction']['rollback_zero_affected'];
         }

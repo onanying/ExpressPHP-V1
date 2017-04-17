@@ -31,7 +31,9 @@ class News
         // $uid    = 100;
         // $number = 1;
         // $data   = $this->users->getInfo($uid);
-        // $data   = $this->users->getInfoAll();
+        $data   = $this->users->getInfoAll();
+        print_r($data);
+
         // $this->users->minusCreditsManual($uid, $number);
 
         // return View::create()->fetch('webpage.view.news.article')->assign('name', 'xiaohua')->assign('sex', 'w');
@@ -44,7 +46,7 @@ class News
 
         // return Json::create(['errcode' => 0, 'errmsg' => 'ok']);
 
-        return ['errCode' => 0, 'errMsg' => 'ok', 'data' => [['name' => 'xiaohua', 'sex' => 'w'], ['name' => 'xiaohua', 'sex' => 'w']]];
+        //return ['errCode' => 0, 'errMsg' => 'ok', 'data' => [['name' => 'xiaohua', 'sex' => 'w'], ['name' => 'xiaohua', 'sex' => 'w']]];
 
         //return Xml::create(['errCode' => 0, 'errMsg' => 'ok', 'data' => [['name' => 'xiaohua', 'sex' => 'w'], ['name' => 'xiaohua', 'sex' => 'w']]]);
     }
