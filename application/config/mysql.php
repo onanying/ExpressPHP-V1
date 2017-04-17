@@ -19,8 +19,6 @@ return [
     'database'          => 'test',
     // 数据库编码默认采用utf8
     'charset'           => 'utf8',
-    // 数据库表前缀
-    'prefix'            => 'think_',
 
     /**
      * 运行配置

@@ -56,7 +56,20 @@ class Error
             $template   = $httpExceptionTemplate[$statusCode];
             if (!empty($template)) {
                 if (is_array($template)) {
-                    $body = \sys\response\Json::create($template);
+                    switch (Config::get('config.response.array_default_convert')) {
+                        case 'json':
+                            $body = \sys\response\Json::create($template);
+                            break;
+                        case 'jsonp':
+                            $body = \sys\response\Jsonp::create($template);
+                            break;
+                        case 'xml':
+                            $body = \sys\response\Xml::create($template);
+                            break;
+                        default:
+                            $body = \sys\response\Json::create($template);
+                            break;
+                    }
                 } else {
                     if (!\sys\response\View::has($template)) {
                         self::appException(new \sys\exception\ViewException('视图文件不存在', $template));
