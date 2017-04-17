@@ -54,8 +54,8 @@ return [
     'http_exception' => [
 
         // 自定义404错误: 视图地址 | 数组 | 空字符
-        // 视图地址: 404 => 'error.404',
-        // 数组: 404 => ['errcode'=>-1, 'errmsg'=>'404 Not Found'],
+        // 视图地址: 404 => 'template.404',
+        // 数组: 404 => ['errCode'=>-1, 'errMsg'=>'404 Not Found'],
         404 => '',
 
     ],
