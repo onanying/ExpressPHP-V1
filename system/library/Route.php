@@ -112,10 +112,10 @@ class Route
     // 标准模式转换
     private static function standardConvertRule($rule)
     {
-        $endMark = self::fetchEndMark($rule);
-        $rule    = substr($rule, 0, -1);
-        $parts   = explode('/', $rule);
-        $args    = [];
+        $endMark                = self::fetchEndMark($rule);
+        $endMark == '' or $rule = substr($rule, 0, -1);
+        $parts                  = explode('/', $rule);
+        $args                   = [];
         foreach ($parts as $key => $part) {
             $partTag = substr($part, 0, 1);
             $partKey = substr($part, 1);
@@ -138,13 +138,13 @@ class Route
     // 绑定方法模式转换
     private static function bindMethodConvertRule($rule)
     {
-        $endMark  = self::fetchEndMark($rule);
-        $rule     = substr($rule, 0, -1);
-        $parts    = explode('/', $rule);
-        $args     = [];
-        $lastPart = array_pop($parts);
-        $partTag  = substr($lastPart, 0, 1);
-        $partKey  = substr($lastPart, 1);
+        $endMark                = self::fetchEndMark($rule);
+        $endMark == '' or $rule = substr($rule, 0, -1);
+        $parts                  = explode('/', $rule);
+        $args                   = [];
+        $lastPart               = array_pop($parts);
+        $partTag                = substr($lastPart, 0, 1);
+        $partKey                = substr($lastPart, 1);
         if ($partTag == ':') {
             if (isset(self::$patterns[$partKey])) {
                 $lastPart = '(' . self::$patterns[$partKey] . ')';
