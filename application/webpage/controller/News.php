@@ -44,9 +44,9 @@ class News
 
         // return Json::create(['errcode' => 0, 'errmsg' => 'ok']);
 
-        // return ['errCode' => 0, 'errMsg' => 'ok', 'data' => $data];
+        return ['errCode' => 0, 'errMsg' => 'ok', 'data' => [['name' => 'xiaohua', 'sex' => 'w'], ['name' => 'xiaohua', 'sex' => 'w']]];
 
-        return Xml::create(['errCode' => 0, 'errMsg' => 'ok', 'data' => [['name' => 'xiaohua', 'sex' => 'w'], ['name' => 'xiaohua', 'sex' => 'w']]]);
+        //return Xml::create(['errCode' => 0, 'errMsg' => 'ok', 'data' => [['name' => 'xiaohua', 'sex' => 'w'], ['name' => 'xiaohua', 'sex' => 'w']]]);
     }
 
 }

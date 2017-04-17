@@ -8,6 +8,8 @@
 namespace sys;
 
 use sys\response\Json;
+use sys\response\Jsonp;
+use sys\response\Xml;
 
 class Response
 {
@@ -87,6 +89,15 @@ class Response
         $body = $this->body;
         if (is_array($body)) {
             switch (Config::get('config.response.array_default_convert')) {
+                case 'json':
+                    $body = Json::create($body);
+                    break;
+                case 'jsonp':
+                    $body = Jsonp::create($body);
+                    break;
+                case 'xml':
+                    $body = Xml::create($body);
+                    break;
                 default:
                     $body = Json::create($body);
                     break;
