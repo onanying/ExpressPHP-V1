@@ -10,9 +10,9 @@ return [
     // 数据库用户名
     'username'    => 'root',
     // 数据库密码
-    'password'    => '123456',
+    'password'    => '',
     // 数据库名
-    'database'    => 'test',
+    'database'    => '',
     // 数据库编码默认采用utf8
     'charset'     => 'utf8',
 
