@@ -1,8 +1,12 @@
 <?php
 
-// mysql 配置文件
+// pdo 配置文件
 return [
 
+    // 数据源格式
+    'dsn_format'  => '[type]:host=[hostname];port=[hostport];charset=[charset];dbname=[database]',
+    // 数据库类型
+    'type'        => 'mysql',
     // 服务器地址
     'hostname'    => '127.0.0.1',
     // 数据库连接端口
