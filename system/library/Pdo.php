@@ -114,14 +114,17 @@ class Pdo
     // 返回最后执行的SQL语句
     public static function getLastSql()
     {
-        list($sql, $params, $values) = self::$lastSqlData;
-        $params                      = self::quotes($params);
-        $values                      = self::quotes($values);
-        foreach ($params as $key => &$value) {
-            $sql = str_replace(':' . $key, $value, $sql);
+        if (isset(self::$lastSqlData)) {
+            list($sql, $params, $values) = self::$lastSqlData;
+            $params                      = self::quotes($params);
+            $values                      = self::quotes($values);
+            foreach ($params as $key => $value) {
+                $sql = str_replace(':' . $key, $value, $sql);
+            }
+            $sql = vsprintf(str_replace('?', '%s', $sql), $values);
+            return $sql;
         }
-        $sql = vsprintf(str_replace('?', '%s', $sql), $values);
-        return $sql;
+        return '';
     }
 
     // 给字符串加引号

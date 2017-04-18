@@ -2,10 +2,11 @@
 <html>
 <head>
     <meta charset="utf-8">
-  <title><?php echo $message ?></title>
+  <title><?php echo $message[0] ?></title>
   <style type="text/css">
   body {
     font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    margin: 20px;
   }
   h1 {
     font-family: Consolas, "Liberation Mono", Courier, Verdana, "微软雅黑";
@@ -19,9 +20,9 @@
     color: #868686;
   }
   h1, p {
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: #CCC;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: #CCC;
     padding: 10px;
     margin: 0px;
   }
@@ -29,11 +30,14 @@
 </head>
 <body>
 
-<h1><?php echo $message ?></h1>
-<?php if(isset($file)): ?>
+<?php foreach ($message as $value): ?>
+<h1><?php echo $value; ?></h1>
+<?php endforeach; ?>
+
+<?php if (isset($file)): ?>
 <p><?php echo $file ?> line <?php echo $line ?></p>
 <p><?php echo str_replace("\n", '<br>', $trace); ?></p>
-<?php endif; ?>
-    
+<?php endif;?>
+
 </body>
 </html>
