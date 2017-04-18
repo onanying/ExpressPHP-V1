@@ -73,7 +73,7 @@ class Pdo
     }
 
     // 自动事务
-    public static function transaction($func, $debug = false)
+    public static function transaction($func, $debug = true)
     {
         self::beginTransaction();
         try {
