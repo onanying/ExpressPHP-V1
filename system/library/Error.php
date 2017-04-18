@@ -100,6 +100,8 @@ class Error
             $data['message'] = '视图错误 / ' . $e->getMessage() . ' / ' . $e->getLocation();
         } else if ($e instanceof \sys\exception\TemplateException) {
             $data['message'] = '模板错误 / ' . $e->getMessage() . ' / ' . $e->getLocation();
+        } else if ($e instanceof \PDOException) {
+            $data['message'] = 'PDO错误 / ' . $e->getMessage();
         } else {
             $data['message'] = '未定义错误 / ' . $e->getMessage();
         }

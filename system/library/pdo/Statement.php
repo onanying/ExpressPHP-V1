@@ -5,7 +5,7 @@
  * @author 刘健 <code.liu@qq.com>
  */
 
-namespace sys\mysql;
+namespace sys\pdo;
 
 use sys\Config;
 
@@ -21,7 +21,7 @@ class Statement
     public function __construct($PDOStatement)
     {
         $this->PDOStatement = $PDOStatement;
-        $this->isCamelCase  = Config::get('mysql.case_camel');
+        $this->isCamelCase  = Config::get('pdo.case_camel');
     }
 
     // 调用方法

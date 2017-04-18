@@ -7,34 +7,38 @@
 
 namespace sys;
 
-use sys\mysql\Statement;
+use sys\pdo\Statement;
 
-class Mysql
+class Pdo
 {
 
     // pdo
     private static $pdo;
 
+    // 最后sql数据
+    private static $lastSqlData;
+
     // 回滚含有零影响行数的事务
     private static $rollbackZeroAffected;
-
-    // 是否为事务
-    private static $isTransaction;
 
     // 连接
     public static function connect()
     {
         if (!isset(self::$pdo)) {
-            $conf    = Config::get('mysql');
-            $pdoConf = [
+            $conf = Config::get('pdo');
+            $dns  = $conf['dsn_format'];
+            foreach (['type', 'hostname', 'hostport', 'username', 'password', 'database', 'charset'] as $name) {
+                $dns = str_replace("[{$name}]", $conf[$name], $dns);
+            }
+            $params = [
                 \PDO::ATTR_EMULATE_PREPARES => false,
                 \PDO::ATTR_ERRMODE          => \PDO::ERRMODE_EXCEPTION,
             ];
             self::$pdo = new \PDO(
-                'mysql:host=' . $conf['hostname'] . ';port=' . $conf['hostport'] . ';charset=' . $conf['charset'] . ';dbname=' . $conf['database'],
+                $dns,
                 $conf['username'],
                 $conf['password'],
-                $pdoConf += $conf['attribute']
+                $params += $conf['attribute']
             );
             self::$rollbackZeroAffected = $conf['transaction']['rollback_zero_affected'];
         }
@@ -44,8 +48,7 @@ class Mysql
     public static function query($sql, $data = [])
     {
         self::connect();
-        self::connect();
-        list($sql, $params, $values) = self::prepare($sql, $data);
+        list($sql, $params, $values) = self::$lastSqlData = self::prepare($sql, $data);
         $statement                   = self::$pdo->prepare($sql);
         foreach ($params as $key => &$value) {
             $statement->bindParam($key, $value);
@@ -60,11 +63,13 @@ class Mysql
     // 执行一条 SQL 语句，并返回受影响的行数
     public static function execute($sql, $data = [])
     {
-        $affectedRows = self::query($sql, $data)->rowCount();
-        if (self::$isTransaction && self::$rollbackZeroAffected && $affectedRows == 0) {
-            throw new \Exception('事物内查询的影响行数为零');
+        $statement    = self::query($sql, $data);
+        $affectedRows = $statement->rowCount();
+        $lastInsertId = self::$pdo->lastInsertId();
+        if (self::$pdo->inTransaction() && self::$rollbackZeroAffected && $affectedRows == 0) {
+            throw new \PDOException('事物内查询的影响行数为零');
         }
-        return $affectedRows;
+        return $lastInsertId ?: $affectedRows;
     }
 
     // 自动事务
@@ -92,24 +97,46 @@ class Mysql
     {
         self::connect();
         self::$pdo->beginTransaction();
-        self::$isTransaction = true;
     }
 
     // 提交事务
     public static function commit()
     {
         self::$pdo->commit();
-        self::$isTransaction = null;
     }
 
     // 回滚事务
     public static function rollBack()
     {
         self::$pdo->rollBack();
-        self::$isTransaction = null;
     }
 
-    // 预处理
+    // 返回最后执行的SQL语句
+    public static function getLastSql()
+    {
+        list($sql, $params, $values) = self::$lastSqlData;
+        $params                      = self::quotes($params);
+        $values                      = self::quotes($values);
+        foreach ($params as $key => &$value) {
+            $sql = str_replace(':' . $key, $value, $sql);
+        }
+        $sql = vsprintf(str_replace('?', '%s', $sql), $values);
+        return $sql;
+    }
+
+    // 给字符串加引号
+    private static function quotes($var)
+    {
+        if (is_array($var)) {
+            foreach ($var as $k => $v) {
+                $var[$k] = self::quotes($v);
+            }
+            return $var;
+        }
+        return is_numeric($var) ? $var : "'{$var}'";
+    }
+
+    // 预处理, 扩展数组参数的支持
     private static function prepare($sql, $data)
     {
         $params = $values = [];
