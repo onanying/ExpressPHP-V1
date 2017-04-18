@@ -24,7 +24,7 @@
 
 ## ExpressPHP完全开发手册
 
-[![ExpressPHP完全开发手册](https://box.kancloud.cn/cover_onanying_expressphp.jpg?imageMogr2/thumbnail/173x231!/interlace/1/quality/100)](http://www.kancloud.cn/onanying/expressphp/302715)
+[![ExpressPHP完全开发手册](https://box.kancloud.cn/cover_onanying_expressphp.jpg?imageMogr2/thumbnail/173x231!/interlace/1/quality/101)](http://www.kancloud.cn/onanying/expressphp/302715)
 
 [在线查看手册](http://www.kancloud.cn/onanying/expressphp/302715)    
 [下载手册](http://www.kancloud.cn/onanying/expressphp)
