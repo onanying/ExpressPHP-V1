@@ -41,19 +41,19 @@ class Error
         // 获取配置
         $appDebug = Config::get('config.app_debug');
         // 清空无法接管的系统错误
-        ob_clean();
+        //ob_clean();
 
         // http异常处理
         if ($e instanceof \sys\exception\HttpException) {
             $httpExceptionTemplate = Config::get('config.http_exception');
-            $data['message']       = [$e->getStatusCode() . ' / ' . $e->getMessage()];
+            $data['message'] = [$e->getStatusCode() . ' / ' . $e->getMessage()];
             if ($appDebug) {
-                $data['file']  = $e->getFile();
-                $data['line']  = $e->getLine();
+                $data['file'] = $e->getFile();
+                $data['line'] = $e->getLine();
                 $data['trace'] = $e->getTraceAsString();
             }
             $statusCode = $e->getStatusCode();
-            $template   = $httpExceptionTemplate[$statusCode];
+            $template = $httpExceptionTemplate[$statusCode];
             if (!empty($template)) {
                 if (is_array($template)) {
                     switch (Config::get('config.response.array_default_convert')) {
@@ -92,7 +92,7 @@ class Error
         } else if ($e instanceof \sys\exception\ErrorException) {
             $data['message'] = ['系统错误', $e->getMessage()];
         } else if ($e instanceof \sys\exception\RouteException) {
-            $data['code']    = 404;
+            $data['code'] = 404;
             $data['message'] = ['路由错误', $e->getMessage() . ':' . $e->getLocation()];
         } else if ($e instanceof \sys\exception\ConfigException) {
             $data['message'] = ['配置错误', $e->getMessage() . ':' . $e->getLocation()];
@@ -101,17 +101,17 @@ class Error
         } else if ($e instanceof \sys\exception\TemplateException) {
             $data['message'] = ['模板错误', $e->getMessage() . ':' . $e->getLocation()];
         } else if ($e instanceof \PDOException) {
-            $data['message']                                            = ['PDO错误', $e->getMessage()];
+            $data['message'] = ['PDO错误', $e->getMessage()];
             '' == ($sql = \sys\Pdo::getLastSql()) or $data['message'][] = $sql;
         } else {
             $data['message'] = ['未定义错误', $e->getMessage()];
         }
         if ($appDebug) {
-            $data['file']  = $e->getFile();
-            $data['line']  = $e->getLine();
+            $data['file'] = $e->getFile();
+            $data['line'] = $e->getLine();
             $data['trace'] = $e->getTraceAsString();
         }
-        $error    = \sys\response\Error::create($data);
+        $error = \sys\response\Error::create($data);
         $response = Response::instance()->setBody($error);
         $response->code($data['code']);
         $response->send();

@@ -1,10 +1,12 @@
 {
 
     "autoload": {
+
         "psr-4": {
             "sys\\": "system/library/",
             "app\\": "application/"
         }
+        
     }
 
 }

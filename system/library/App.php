@@ -14,12 +14,13 @@ class App
     public static function run()
     {
         $pathinfo = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/';
-        $location = Route::match($pathinfo);
+        $result = Route::match($pathinfo);
         Route::destruct();
-        if (!$location) {
+        if (!$result) {
             throw new \sys\exception\HttpException(404, 'URL不存在');
         }
-        return self::runController($location);
+        list($location, $mode) = $result;
+        return self::runController($location, $mode);
     }
 
     // 将蛇形命名转换为驼峰命名
@@ -31,12 +32,11 @@ class App
     }
 
     // 执行控制器
-    private static function runController($location)
+    private static function runController($location, $mode)
     {
         // 实例化控制器
-        $classPath  = dirname($location);
+        $namespace = dirname($location);
         $methodName = basename($location);
-        $namespace  = '\\app\\' . str_ireplace('/', '\\', $classPath);
         try {
             $reflect = new \ReflectionClass($namespace);
         } catch (\ReflectionException $e) {
@@ -47,6 +47,9 @@ class App
         if (method_exists($controller, $methodName) || method_exists($controller, $methodName = self::snakeToCamel($methodName))) {
             // 执行控制器的方法
             return Response::instance()->setBody($controller->$methodName());
+        }
+        if ($mode == Route::BIND_METHOD) {
+            throw new \sys\exception\HttpException(404, 'URL不存在');
         }
         throw new \sys\exception\RouteException('方法未找到', $namespace . '->' . $methodName . '()');
     }

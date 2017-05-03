@@ -7,7 +7,7 @@ return [
     'app_debug' => true,
 
     // 自动加载配置文件
-    'autoload_config' => ['mysql', 'redis', 'memcache'],
+    'autoload_config' => ['pdo', 'redis', 'memcache'],
 
     // request配置
     'request' => [
@@ -43,7 +43,7 @@ return [
         'save_handler' => 'files',
 
         // files保存路径: /tmp
-        'files_save_path' => 'c:/tmp',
+        'files_save_path' => '/tmp',
 
         // session有效期
         'gc_maxlifetime' => 7200,
@@ -77,7 +77,7 @@ return [
     'http_exception' => [
 
         // 自定义404错误: 视图地址 | 数组 | 空字符
-        // 视图地址: 404 => 'template.404',
+        // 视图地址: 404 => 'view.404',
         // 数组: 404 => ['errCode'=>-1, 'errMsg'=>'404 Not Found'],
         404 => '',
 

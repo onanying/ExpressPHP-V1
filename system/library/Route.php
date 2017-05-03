@@ -37,13 +37,13 @@ class Route
     // 注册路由规则
     public static function rule($rule, $path, $mode = self::STANDARD)
     {
+        $path = str_ireplace(['->', '/'], '\\', $path);
         self::$rules[] = ['rule' => self::convertRule($rule, $mode), 'path' => $path];
     }
 
     // 匹配操作路径
     public static function match($pathinfo)
     {
-        $location = false;
         foreach (self::$rules as $key => $rule) {
             switch ($rule['rule']['mode']) {
                 case self::STANDARD:
@@ -54,10 +54,10 @@ class Route
                     break;
             }
             if ($location) {
-                return $location;
+                return [$location, $rule['rule']['mode']];
             }
         }
-        return $location;
+        return false;
     }
 
     // 标准模式匹配
@@ -112,10 +112,10 @@ class Route
     // 标准模式转换
     private static function standardConvertRule($rule)
     {
-        $endMark                = self::fetchEndMark($rule);
+        $endMark = self::fetchEndMark($rule);
         $endMark == '' or $rule = substr($rule, 0, -1);
-        $parts                  = explode('/', $rule);
-        $args                   = [];
+        $parts = explode('/', $rule);
+        $args = [];
         foreach ($parts as $key => $part) {
             $partTag = substr($part, 0, 1);
             $partKey = substr($part, 1);
@@ -130,21 +130,21 @@ class Route
         }
         return [
             'pattern' => '/^\/' . implode('\/', $parts) . $endMark . '/i',
-            'args'    => $args,
-            'mode'    => self::STANDARD,
+            'args' => $args,
+            'mode' => self::STANDARD,
         ];
     }
 
     // 绑定方法模式转换
     private static function bindMethodConvertRule($rule)
     {
-        $endMark                = self::fetchEndMark($rule);
+        $endMark = self::fetchEndMark($rule);
         $endMark == '' or $rule = substr($rule, 0, -1);
-        $parts                  = explode('/', $rule);
-        $args                   = [];
-        $lastPart               = array_pop($parts);
-        $partTag                = substr($lastPart, 0, 1);
-        $partKey                = substr($lastPart, 1);
+        $parts = explode('/', $rule);
+        $args = [];
+        $lastPart = array_pop($parts);
+        $partTag = substr($lastPart, 0, 1);
+        $partKey = substr($lastPart, 1);
         if ($partTag == ':') {
             if (isset(self::$patterns[$partKey])) {
                 $lastPart = '(' . self::$patterns[$partKey] . ')';
@@ -158,8 +158,8 @@ class Route
                 '/^\/' . implode('\/', $parts) . '\/' . $lastPart . $endMark . '/i',
                 '/^\/' . implode('\/', $parts) . $endMark . '/i',
             ],
-            'args'    => $args,
-            'mode'    => self::BIND_METHOD,
+            'args' => $args,
+            'mode' => self::BIND_METHOD,
         ];
     }
 
@@ -173,7 +173,7 @@ class Route
     // 转换路由路径
     private static function convertPath($path, $args)
     {
-        $parts = explode('/', $path);
+        $parts = explode('\\', $path);
         foreach ($parts as $key => $part) {
             $partTag = substr($part, 0, 1);
             $partKey = substr($part, 1);
@@ -183,14 +183,14 @@ class Route
                 }
             }
         }
-        return implode('/', $parts);
+        return implode('\\', $parts);
     }
 
     // 销毁路由配置
     public static function destruct()
     {
         self::$patterns = null;
-        self::$rules    = null;
+        self::$rules = null;
     }
 
 }

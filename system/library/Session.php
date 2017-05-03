@@ -10,6 +10,7 @@ namespace sys;
 class Session
 {
 
+    // 是否初始化完成
     private static $initComplete;
 
     // 初始化
