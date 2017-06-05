@@ -21,8 +21,6 @@ class Loader
         self::registerError();
         // 注册路由配置
         self::registerRoute();
-        // 注册助手函数
-        self::registerHelper();
         // 注册配置文件
         self::registerConfig();
     }
@@ -43,13 +41,6 @@ class Loader
     private static function registerRoute()
     {
         require APP_PATH . 'route.php';
-    }
-
-    // 注册助手函数
-    private static function registerHelper()
-    {
-        require SYS_PATH . 'helper.php';
-        require APP_PATH . 'helper.php';
     }
 
     // 注册配置文件
