@@ -89,7 +89,7 @@ class Request
     private static function getFilter($filter)
     {
         if (is_null($filter)) {
-            $filter = Config::get('config.request.default_filter');
+            $filter = Config::get('main.request.default_filter');
         }
         return $filter;
     }

@@ -39,13 +39,13 @@ class Error
     public static function appException($e)
     {
         // 获取配置
-        $appDebug = Config::get('config.app_debug');
+        $appDebug = Config::get('main.app_debug');
         // 清空无法接管的系统错误
         //ob_clean();
 
         // http异常处理
         if ($e instanceof \sys\exception\HttpException) {
-            $httpExceptionTemplate = Config::get('config.http_exception');
+            $httpExceptionTemplate = Config::get('main.http_exception');
             $data['message'] = [$e->getStatusCode() . ' / ' . $e->getMessage()];
             if ($appDebug) {
                 $data['file'] = $e->getFile();
@@ -56,7 +56,7 @@ class Error
             $template = $httpExceptionTemplate[$statusCode];
             if (!empty($template)) {
                 if (is_array($template)) {
-                    switch (Config::get('config.response.array_default_convert')) {
+                    switch (Config::get('main.response.array_default_convert')) {
                         case 'json':
                             $body = \sys\web\Json::create($template);
                             break;

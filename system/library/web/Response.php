@@ -84,7 +84,7 @@ class Response
     {
         $body = $this->body;
         if (is_array($body)) {
-            switch (Config::get('config.response.array_default_convert')) {
+            switch (Config::get('main.response.array_default_convert')) {
                 case 'json':
                     $body = Json::create($body);
                     break;

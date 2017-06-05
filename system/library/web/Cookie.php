@@ -20,7 +20,7 @@ class Cookie
     public static function init($conf = null)
     {
         if (!isset(self::$initComplete)) {
-            self::$conf = Config::get('config.cookie');
+            self::$conf = Config::get('main.cookie');
             self::$initComplete = true;
         }
         is_null($conf) or self::$conf = array_merge(self::$conf, $conf);

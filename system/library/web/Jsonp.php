@@ -30,14 +30,14 @@ class Jsonp extends json
     public function output()
     {
         // 过滤null
-        if (Config::get('config.json.null_to_string')) {
+        if (Config::get('main.json.null_to_string')) {
             $this->array = parent::filterNull($this->array);
         }
         // 设置Content-Type
         header('Content-Type:application/json;charset=utf-8');
         // 不转义中文、斜杠
         $json = json_encode($this->array, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        $callback = Config::get('config.json.jsonp_callback');
+        $callback = Config::get('main.json.jsonp_callback');
         echo $callback . '(' . $json . ')';
         exit;
     }

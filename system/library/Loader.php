@@ -46,8 +46,8 @@ class Loader
     // 注册配置文件
     private static function registerConfig()
     {
-        Config::load('config');
-        foreach (Config::get('config.autoload_config') as $config) {
+        Config::load('main');
+        foreach (Config::get('main.autoload_config') as $config) {
             Config::load($config);
         }
     }
