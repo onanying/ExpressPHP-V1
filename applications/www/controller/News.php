@@ -7,7 +7,7 @@
 
 namespace www\controller;
 
-use sys\response\View;
+use sys\web\View;
 use www\model\Users;
 
 class News

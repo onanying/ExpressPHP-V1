@@ -8,7 +8,7 @@
 namespace api\controller;
 
 use api\model\Users;
-use sys\Request;
+use sys\web\Request;
 
 class News
 {

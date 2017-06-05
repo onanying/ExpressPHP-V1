@@ -19,7 +19,8 @@ class Session
         if (!isset(self::$initComplete)) {
             $config = Config::get('main.session');
             ini_set('session.save_handler', $config['save_handler']);
-            ini_set('session.gc_maxlifetime', $config['gc_maxlifetime']);
+            ini_set('session.gc_maxlifetime', $config['gc_maxlifetime']);            
+            ini_set('session.name', $config['name']);
             switch ($config['save_handler']) {
                 case 'files':
                     ini_set('session.save_path', $config['files_save_path']);
