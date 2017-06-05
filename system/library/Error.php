@@ -58,29 +58,29 @@ class Error
                 if (is_array($template)) {
                     switch (Config::get('config.response.array_default_convert')) {
                         case 'json':
-                            $body = \sys\response\Json::create($template);
+                            $body = \sys\web\Json::create($template);
                             break;
                         case 'jsonp':
-                            $body = \sys\response\Jsonp::create($template);
+                            $body = \sys\web\Jsonp::create($template);
                             break;
                         case 'xml':
-                            $body = \sys\response\Xml::create($template);
+                            $body = \sys\web\Xml::create($template);
                             break;
                         default:
-                            $body = \sys\response\Json::create($template);
+                            $body = \sys\web\Json::create($template);
                             break;
                     }
                 } else {
-                    if (!\sys\response\View::has($template)) {
+                    if (!\sys\web\View::has($template)) {
                         self::appException(new \sys\exception\ViewException('视图文件不存在', $template));
                         return;
                     }
-                    $body = \sys\response\View::create($template, $data);
+                    $body = \sys\web\View::create($template, $data);
                 }
             } else {
-                $body = \sys\response\Error::create($data);
+                $body = \sys\web\Error::create($data);
             }
-            $response = Response::instance()->setBody($body);
+            $response = \sys\web\Response::instance()->setBody($body);
             $response->code($statusCode);
             $response->send();
         }
@@ -111,8 +111,8 @@ class Error
             $data['line'] = $e->getLine();
             $data['trace'] = $e->getTraceAsString();
         }
-        $error = \sys\response\Error::create($data);
-        $response = Response::instance()->setBody($error);
+        $error = \sys\web\Error::create($data);
+        $response = \sys\web\Response::instance()->setBody($error);
         $response->code($data['code']);
         $response->send();
     }

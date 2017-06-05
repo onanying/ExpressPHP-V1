@@ -2,11 +2,9 @@
 
 // 框架常量
 define('DS', DIRECTORY_SEPARATOR);
-defined('SYS_PATH') or define('SYS_PATH', __DIR__ . DS);
-define('LIB_PATH', SYS_PATH . 'library' . DS);
-define('TPL_PATH', SYS_PATH . 'template' . DS);
-defined('APP_PATH') or define('APP_PATH', dirname($_SERVER['SCRIPT_FILENAME']) . DS);
-defined('ROOT_PATH') or define('ROOT_PATH', dirname(realpath(APP_PATH)) . DS);
+defined('LIB_PATH') or define('LIB_PATH', SYS_PATH . 'library' . DS);
+defined('TPL_PATH') or define('TPL_PATH', SYS_PATH . 'template' . DS);
+defined('ROOT_PATH') or define('ROOT_PATH', dirname(realpath(SYS_PATH)) . DS);
 defined('CONF_PATH') or define('CONF_PATH', APP_PATH . 'config' . DS);
 defined('VENDOR_PATH') or define('VENDOR_PATH', ROOT_PATH . 'vendor' . DS);
 defined('RUNTIME_PATH') or define('RUNTIME_PATH', ROOT_PATH . 'runtime' . DS);

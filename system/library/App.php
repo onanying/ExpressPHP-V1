@@ -46,7 +46,7 @@ class App
         // 判断方法是否存在
         if (method_exists($controller, $methodName) || method_exists($controller, $methodName = self::snakeToCamel($methodName))) {
             // 执行控制器的方法
-            return Response::instance()->setBody($controller->$methodName());
+            return \sys\web\Response::instance()->setBody($controller->$methodName());
         }
         if ($mode == Route::BIND_METHOD) {
             throw new \sys\exception\HttpException(404, 'URL不存在');
