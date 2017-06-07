@@ -24,16 +24,12 @@ class Pdo
     {
         if (!isset(self::$pdo)) {
             $conf = Config::get('pdo');
-            $dns  = $conf['dsn_format'];
-            foreach (['type', 'hostname', 'hostport', 'username', 'password', 'database', 'charset'] as $name) {
-                $dns = str_replace("[{$name}]", $conf[$name], $dns);
-            }
             $params = [
                 \PDO::ATTR_EMULATE_PREPARES => false,
                 \PDO::ATTR_ERRMODE          => \PDO::ERRMODE_EXCEPTION,
             ];
             self::$pdo = new \PDO(
-                $dns,
+                $conf['dsn'],
                 $conf['username'],
                 $conf['password'],
                 $params += $conf['attribute']

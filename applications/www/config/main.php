@@ -4,13 +4,16 @@
 return [
 
     // 应用调试模式
-    'app_debug'       => true,
+    'app_debug'            => true,
+
+    // 控制器命名空间
+    'controller_namespace' => 'api\controller',
 
     // 自动加载配置文件
-    'autoload_config' => ['pdo', 'redis', 'memcache'],
+    'autoload_config'      => ['pdo', 'redis', 'memcache'],
 
     // request配置
-    'request'         => [
+    'request'              => [
 
         // 默认过滤方法: htmlspecialchars | strip_tags | 空字符
         'default_filter' => 'htmlspecialchars',
@@ -18,7 +21,7 @@ return [
     ],
 
     // response配置
-    'response'        => [
+    'response'             => [
 
         // 数组默认转换类型: json | jsonp | xml
         'array_default_convert' => 'json',
@@ -26,7 +29,7 @@ return [
     ],
 
     // json配置
-    'json'            => [
+    'json'                 => [
 
         // jsonp 回调函数名
         'jsonp_callback' => 'callback',
@@ -37,7 +40,7 @@ return [
     ],
 
     // session配置
-    'session'         => [
+    'session'              => [
 
         // session名称
         'name'            => 'PHPSESSID',
@@ -54,7 +57,7 @@ return [
     ],
 
     // cookie配置
-    'cookie'          => [
+    'cookie'               => [
 
         // 过期时间
         'expire'        => 0,
@@ -77,12 +80,12 @@ return [
     ],
 
     // http错误
-    'http_exception'  => [
+    'http_exception'       => [
 
         // 自定义404错误: 视图地址 | 数组 | 空字符
         // 视图地址: 404 => 'view.404',
         // 数组: 404 => ['errCode'=>-1, 'errMsg'=>'404 Not Found'],
-        404 => 'view.404',
+        404 => ['errCode' => -1, 'errMsg' => '404 Not Found'],
 
     ],
 

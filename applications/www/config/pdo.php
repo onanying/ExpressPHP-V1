@@ -4,21 +4,11 @@
 return [
 
     // 数据源格式
-    'dsn_format'  => '[type]:host=[hostname];port=[hostport];charset=[charset];dbname=[database]',
-    // 数据库类型
-    'type'        => 'mysql',
-    // 服务器地址
-    'hostname'    => '127.0.0.1',
-    // 数据库连接端口
-    'hostport'    => '3306',
+    'dsn'  => 'mysql:host=127.0.0.1;port=3306;charset=utf8;dbname=test',
     // 数据库用户名
     'username'    => 'root',
     // 数据库密码
     'password'    => '123456',
-    // 数据库名
-    'database'    => 'test',
-    // 数据库编码默认采用utf8
-    'charset'     => 'utf8',
 
     // 设置PDO属性: http://php.net/manual/zh/pdo.setattribute.php
     'attribute'   => [
@@ -33,7 +23,7 @@ return [
     ],
 
     // 强制列名为驼峰
-    'case_camel'  => true,
+    'case_camel'  => false,
 
     // 事务
     'transaction' => [
