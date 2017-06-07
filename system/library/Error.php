@@ -10,8 +10,6 @@ namespace sys;
 class Error
 {
 
-    private static $processed;
-
     // 注册异常处理
     public static function register()
     {
