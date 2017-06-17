@@ -6,9 +6,6 @@ return [
     // 应用调试模式
     'app_debug'            => true,
 
-    // 控制器命名空间
-    'controller_namespace' => 'api\controller',
-
     // 自动加载配置文件
     'autoload_config'      => ['pdo', 'redis', 'memcache'],
 
