@@ -3,9 +3,8 @@
     "autoload": {
 
         "psr-4": {
-            "sys\\": "system/library/",
-            "www\\": "applications/www/",
-            "api\\": "applications/api/"
+            "express\\": "express/library/",
+            "www\\": "applications/www/"
         }
         
     }

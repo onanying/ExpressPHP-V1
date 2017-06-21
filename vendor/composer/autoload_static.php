@@ -11,13 +11,9 @@ class ComposerStaticInitf3278050eb95033ac5cc7558a3fdaa87
         array (
             'www\\' => 4,
         ),
-        's' => 
+        'e' => 
         array (
-            'sys\\' => 4,
-        ),
-        'a' => 
-        array (
-            'api\\' => 4,
+            'express\\' => 8,
         ),
     );
 
@@ -26,13 +22,9 @@ class ComposerStaticInitf3278050eb95033ac5cc7558a3fdaa87
         array (
             0 => __DIR__ . '/../..' . '/applications/www',
         ),
-        'sys\\' => 
+        'express\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/system/library',
-        ),
-        'api\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/applications/api',
+            0 => __DIR__ . '/../..' . '/express/library',
         ),
     );
 

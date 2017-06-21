@@ -7,6 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'www\\' => array($baseDir . '/applications/www'),
-    'sys\\' => array($baseDir . '/system/library'),
-    'api\\' => array($baseDir . '/applications/api'),
+    'express\\' => array($baseDir . '/express/library'),
 );
