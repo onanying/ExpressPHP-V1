@@ -16,14 +16,17 @@ class Route
     public $defaultPattern = '[\w-]+';
     // 路由变量规则
     public $patterns = [];
+    // 初始路由规则
+    private $initRules = [
+        // 首页
+        '' => 'site/index',
+    ];
     // 路由规则
     public $rules = [
         ':controller/:action' => ':controller/:action',
     ];
     // 路由数据
     private $data = [];
-    // 路由参数
-    public $params = [];
 
     /**
      * 初始化
@@ -31,9 +34,17 @@ class Route
      */
     public function init()
     {
-        foreach ($this->rules as $rule => $action) {
+        $rules = $this->initRules + $this->rules;
+        // index处理
+        foreach ($rules as $rule => $action) {
+            if (strpos($rule, ':action') !== false) {
+                $rules[dirname($rule)] = $action;
+            }
+        }
+        // 转正则
+        foreach ($rules as $rule => $action) {
             $fragment = explode('/', $rule);
-            $params   = [];
+            $names    = [];
             foreach ($fragment as $k => $v) {
                 $prefix = substr($v, 0, 1);
                 $fname  = substr($v, 1);
@@ -43,10 +54,10 @@ class Route
                     } else {
                         $fragment[$k] = '(' . $this->defaultPattern . ')';
                     }
-                    $params[] = $fname;
+                    $names[] = $fname;
                 }
             }
-            $this->data['/^' . implode('\/', $fragment) . '\/*$/i'] = [$action, $params];
+            $this->data['/^' . implode('\/', $fragment) . '\/*$/i'] = [$action, $names];
         }
     }
 
@@ -54,16 +65,21 @@ class Route
      * 执行功能
      * @param  string $name
      */
-    public function runAction($name)
+    public function runAction($name, $request = [])
     {
-        $action = $this->matchAction($name);
+        list($action, $urlParams) = $this->matchAction($name);
+        // index处理
+        if (isset($urlParams['controller']) && strpos($action, ':action') !== false) {
+            $action = str_replace(':action', 'index', $action);
+        }
+        // 执行
         if ($action) {
             $action = "{$this->controllerNamespace}\\{$action}";
             // 实例化控制器
             $class     = dirname($action);
             $classPath = dirname($class);
-            $className = $this->snakeToCamel(basename($class));
-            $method    = $this->snakeToCamel(basename($action), true);
+            $className = self::snakeToCamel(basename($class));
+            $method    = self::snakeToCamel(basename($action), true);
             $class     = "{$classPath}\\{$className}Controller";
             $method    = "action{$method}";
             try {
@@ -75,7 +91,7 @@ class Route
             // 判断方法是否存在
             if (method_exists($controller, $method)) {
                 // 执行控制器的方法
-                return $controller->$method();
+                return $controller->$method($request + ['url' => $urlParams]);
             }
         }
         throw new \express\exception\HttpException(404, 'URL不存在');
@@ -89,27 +105,27 @@ class Route
      */
     public static function snakeToCamel($name, $ucfirst = false)
     {
-        $name = ucwords(str_replace('_', ' ', $name));
+        $name = ucwords(str_replace(['_', '-'], ' ', $name));
         $name = str_replace(' ', '', lcfirst($name));
         return $ucfirst ? ucfirst($name) : $name;
     }
 
     /**
      * 匹配功能
-     * @param  [type] $name [description]
+     * @param  string $name
      * @return false or string
      */
     public function matchAction($name)
     {
         // 清空旧数据
-        $this->params = [];
+        $urlParams = [];
         // 匹配
         foreach ($this->data as $rule => $value) {
-            list($action, $params) = $value;
+            list($action, $names) = $value;
             if (preg_match($rule, $name, $matches)) {
                 // 保存参数
-                foreach ($params as $k => $v) {
-                    $this->params[$v] = $matches[$k + 1];
+                foreach ($names as $k => $v) {
+                    $urlParams[$v] = $matches[$k + 1];
                 }
                 // 替换参数
                 $fragment = explode('/', $action);
@@ -117,13 +133,13 @@ class Route
                     $prefix = substr($v, 0, 1);
                     $fname  = substr($v, 1);
                     if ($prefix == ':') {
-                        if (isset($this->params[$fname])) {
-                            $fragment[$k] = $this->params[$fname];
+                        if (isset($urlParams[$fname])) {
+                            $fragment[$k] = $urlParams[$fname];
                         }
                     }
                 }
                 // 返回action
-                return implode('\\', $fragment);
+                return [implode('\\', $fragment), $urlParams];
             }
         }
         return false;

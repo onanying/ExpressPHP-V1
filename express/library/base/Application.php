@@ -54,8 +54,14 @@ class Application
 
     public function run()
     {
-        $response = \Express::$app->route->runAction('site/index');
-        echo $response;
+        $pathinfo = empty($_SERVER['PATH_INFO']) ? '' : substr($_SERVER['PATH_INFO'], 1);
+        $response = \Express::$app->route->runAction($pathinfo, ['get' => $_GET, 'post' => $_POST]);
+        print_r($response);
+    }
+
+    public function runAction($action, $request)
+    {
+        return \Express::$app->route->runAction($action, $request);
     }
 
     /**

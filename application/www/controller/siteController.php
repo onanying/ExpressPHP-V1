@@ -10,9 +10,17 @@ namespace www\controller;
 class siteController
 {
 
-    public function actionIndex()
+    public function actionIndex($request)
     {
-        return 'actionIndex';
+        // \Express::$app->request->init($request);
+        // \Express::$app->request->get();
+        // \Express::$app->request->post();
+        return $request;
+    }
+
+    public function actionMyTest($request)
+    {
+        return $request;
     }
 
 }
