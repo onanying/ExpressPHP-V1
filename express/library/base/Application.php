@@ -5,9 +5,9 @@
  * @author 刘健 <code.liu@qq.com>
  */
 
-namespace express;
+namespace express\base;
 
-class App
+class Application
 {
 
     // 应用根路径
@@ -54,8 +54,8 @@ class App
 
     public function run()
     {
-        var_dump(\Express::$app->config);
-        var_dump(\Express::$app->config);
+        $response = \Express::$app->route->runAction('site/index');
+        echo $response;
     }
 
     /**

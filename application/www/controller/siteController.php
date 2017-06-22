@@ -7,12 +7,12 @@
 
 namespace www\controller;
 
-class Index
+class siteController
 {
 
-    public function index()
+    public function actionIndex()
     {
-        echo '\www\controller\Index->index';
+        return 'actionIndex';
     }
 
 }

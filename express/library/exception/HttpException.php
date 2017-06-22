@@ -5,7 +5,7 @@
  * @author 刘健 <code.liu@qq.com>
  */
 
-namespace sys\exception;
+namespace express\exception;
 
 class HttpException extends \RuntimeException
 {

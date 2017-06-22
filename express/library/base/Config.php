@@ -5,16 +5,15 @@
  * @author 刘健 <code.liu@qq.com>
  */
 
-namespace express;
+namespace express\base;
 
 class Config
 {
 
     // 配置文件参数
     public $params;
-
     // 自动加载列表
-    public $autoload;
+    public $autoload = [];
 
     /**
      * 初始化
@@ -53,7 +52,11 @@ class Config
         return is_array($params) ? $params : [];
     }
 
-    // 读取配置
+    /**
+     * 读取配置
+     * @param  string $name 支持三级
+     * @return array or scalar
+     */
     public function get($name = '')
     {
         // 全部配置
@@ -63,48 +66,52 @@ class Config
             }
         }
         $array  = explode('.', $name);
-        $length = count($array);
+        $level = count($array);
         // 一级配置
-        if ($length == 1) {
+        if ($level == 1) {
             list($oneLevel) = $array;
             if (isset($this->params[$oneLevel])) {
                 return $this->params[$oneLevel];
             }
         }
         // 二级配置
-        if ($length == 2) {
+        if ($level == 2) {
             list($oneLevel, $secondLevel) = $array;
             if (isset($this->params[$oneLevel][$secondLevel])) {
                 return $this->params[$oneLevel][$secondLevel];
             }
         }
         // 三级配置
-        if ($length == 3) {
+        if ($level == 3) {
             list($oneLevel, $secondLevel, $threeLevel) = $array;
             if (isset($this->params[$oneLevel][$secondLevel][$threeLevel])) {
                 return $this->params[$oneLevel][$secondLevel][$threeLevel];
             }
         }
-        throw new \sys\exception\ConfigException('配置项不存在', $name);
+        throw new \express\exception\ConfigException('配置项不存在', $name);
     }
 
-    // 判断配置是否存在
+    /**
+     * 判断配置是否存在
+     * @param  string  $name 支持三级
+     * @return boolean
+     */
     public function has($name = '')
     {
         $array  = explode('.', $name);
-        $length = count($array);
+        $level = count($array);
         // 一级配置
-        if ($length == 1) {
+        if ($level == 1) {
             list($oneLevel) = $array;
             return isset($this->params[$oneLevel]) ? true : false;
         }
         // 二级配置
-        if ($length == 2) {
+        if ($level == 2) {
             list($oneLevel, $secondLevel) = $array;
             return isset($this->params[$oneLevel][$secondLevel]) ? true : false;
         }
         // 三级配置
-        if ($length == 3) {
+        if ($level == 3) {
             list($oneLevel, $secondLevel, $threeLevel) = $array;
             return isset($this->params[$oneLevel][$secondLevel][$threeLevel]) ? true : false;
         }

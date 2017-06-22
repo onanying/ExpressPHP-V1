@@ -9,4 +9,4 @@ require __DIR__ . '/../../../express/library/Express.php';
 
 $config = require __DIR__ . '/../config/main.php';
 
-(new express\App($config))->run();
+(new express\base\Application($config))->run();

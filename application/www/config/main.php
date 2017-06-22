@@ -1,17 +1,17 @@
 <?php
 
-// 主配置文件
+// APP配置文件
 return [
 
     'basePath'  => dirname(__DIR__) . DS,
 
-    // 注册树配置
+    // 注册树
     'register' => [
 
         // 配置
         'config' => [
             // 类路径
-            'class'    => 'express\Config',
+            'class'    => 'express\base\Config',
             // 自动加载
             'autoload' => ['common'],
         ],
@@ -19,12 +19,12 @@ return [
         // 路由
         'route'  => [
             // 类路径
-            'class'               => 'express\Route',
+            'class'               => 'express\base\Route',
             // 控制器命名空间
             'controllerNamespace' => 'www\controller',
             // 默认变量规则
             'defaultPattern'      => '[\w-]+',
-            // 变量规则
+            // 路由变量规则
             'patterns'            => [
                 'id' => '\d+',
             ],
