@@ -6,6 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'www\\' => array($baseDir . '/applications/www'),
+    'www\\' => array($baseDir . '/application/www'),
     'express\\' => array($baseDir . '/express/library'),
 );

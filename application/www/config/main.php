@@ -3,13 +3,21 @@
 // 主配置文件
 return [
 
-    'appPath'         => dirname(__DIR__),
+    'basePath'  => dirname(__DIR__) . DS,
 
     // 注册树配置
-    'register'        => [
+    'register' => [
 
-        // 路由配置
-        'route' => [
+        // 配置
+        'config' => [
+            // 类路径
+            'class'    => 'express\Config',
+            // 自动加载
+            'autoload' => ['common'],
+        ],
+
+        // 路由
+        'route'  => [
             // 类路径
             'class'               => 'express\Route',
             // 控制器命名空间

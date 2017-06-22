@@ -8,6 +8,7 @@
 class Express
 {
 
+	// App 实例
     public static $app;
 
 }
