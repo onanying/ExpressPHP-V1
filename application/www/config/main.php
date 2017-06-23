@@ -3,13 +3,13 @@
 // APP配置文件
 return [
 
-    'basePath'  => dirname(__DIR__) . DS,
+    'basePath' => dirname(__DIR__) . DS,
 
     // 注册树
     'register' => [
 
         // 配置
-        'config' => [
+        'config'  => [
             // 类路径
             'class'    => 'express\base\Config',
             // 自动加载
@@ -17,7 +17,7 @@ return [
         ],
 
         // 路由
-        'route'  => [
+        'route'   => [
             // 类路径
             'class'               => 'express\base\Route',
             // 控制器命名空间
@@ -30,8 +30,14 @@ return [
             ],
             // 路由规则
             'rules'               => [
-                ':controller/:action' => ':controller/:action',
+
             ],
+        ],
+
+        // 请求
+        'request' => [
+            // 类路径
+            'class' => 'express\web\Request',
         ],
 
     ],

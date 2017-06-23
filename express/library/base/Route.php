@@ -17,14 +17,14 @@ class Route
     // 路由变量规则
     public $patterns = [];
     // 初始路由规则
-    private $initRules = [
+    private $defaultRules = [
         // 首页
-        '' => 'site/index',
-    ];
-    // 路由规则
-    public $rules = [
+        ''                    => 'site/index',
+        // 一级目录
         ':controller/:action' => ':controller/:action',
     ];
+    // 路由规则
+    public $rules = [];
     // 路由数据
     private $data = [];
 
@@ -34,7 +34,7 @@ class Route
      */
     public function init()
     {
-        $rules = $this->initRules + $this->rules;
+        $rules = $this->defaultRules + $this->rules;
         // index处理
         foreach ($rules as $rule => $action) {
             if (strpos($rule, ':action') !== false) {
@@ -65,17 +65,19 @@ class Route
      * 执行功能
      * @param  string $name
      */
-    public function runAction($name, $request = [])
+    public function runAction($name, $requestParams = [])
     {
         list($action, $urlParams) = $this->matchAction($name);
+        // 路由参数导入请求类
+        \Express::$app->request->setRoute($urlParams);
         // index处理
         if (isset($urlParams['controller']) && strpos($action, ':action') !== false) {
             $action = str_replace(':action', 'index', $action);
         }
         // 执行
         if ($action) {
-            $action = "{$this->controllerNamespace}\\{$action}";
             // 实例化控制器
+            $action    = "{$this->controllerNamespace}\\{$action}";
             $class     = dirname($action);
             $classPath = dirname($class);
             $className = self::snakeToCamel(basename($class));
@@ -91,7 +93,7 @@ class Route
             // 判断方法是否存在
             if (method_exists($controller, $method)) {
                 // 执行控制器的方法
-                return $controller->$method($request + ['url' => $urlParams]);
+                return $controller->$method($requestParams + ['route' => $urlParams]);
             }
         }
         throw new \express\exception\HttpException(404, 'URL不存在');

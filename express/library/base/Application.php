@@ -59,9 +59,9 @@ class Application
         print_r($response);
     }
 
-    public function runAction($action, $request)
+    public function runAction($action, $requestParams = [])
     {
-        return \Express::$app->route->runAction($action, $request);
+        return \Express::$app->route->runAction($action, $requestParams);
     }
 
     /**

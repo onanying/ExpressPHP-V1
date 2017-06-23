@@ -12,15 +12,14 @@ class siteController
 
     public function actionIndex($request)
     {
-        // \Express::$app->request->init($request);
-        // \Express::$app->request->get();
-        // \Express::$app->request->post();
+    	\Express::$app->request->setGet(['dd'=>'dd']);
+    	$request = \Express::$app->request->create($request);
         return $request;
     }
 
-    public function actionMyTest($request)
+    public function actionMyTest()
     {
-        return $request;
+        return \Express::$app->request->route();
     }
 
 }
