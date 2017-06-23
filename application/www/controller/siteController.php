@@ -12,8 +12,7 @@ class siteController
 
     public function actionIndex($request)
     {
-    	\Express::$app->request->setGet(['dd'=>'dd']);
-    	$request = \Express::$app->request->create($request);
+        $request = \Express::$app->request->create($request);
         return $request;
     }
 

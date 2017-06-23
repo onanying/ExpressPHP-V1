@@ -100,19 +100,6 @@ class Route
     }
 
     /**
-     * 将蛇形命名转换为驼峰命名
-     * @param  string  $name
-     * @param  boolean $ucfirst
-     * @return string
-     */
-    public static function snakeToCamel($name, $ucfirst = false)
-    {
-        $name = ucwords(str_replace(['_', '-'], ' ', $name));
-        $name = str_replace(' ', '', lcfirst($name));
-        return $ucfirst ? ucfirst($name) : $name;
-    }
-
-    /**
      * 匹配功能
      * @param  string $name
      * @return false or string
@@ -145,6 +132,19 @@ class Route
             }
         }
         return false;
+    }
+
+    /**
+     * 将蛇形命名转换为驼峰命名
+     * @param  string  $name
+     * @param  boolean $ucfirst
+     * @return string
+     */
+    public static function snakeToCamel($name, $ucfirst = false)
+    {
+        $name = ucwords(str_replace(['_', '-'], ' ', $name));
+        $name = str_replace(' ', '', lcfirst($name));
+        return $ucfirst ? ucfirst($name) : $name;
     }
 
 }
