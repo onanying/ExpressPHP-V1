@@ -1,3 +1,5 @@
+> **ExpressPHP 不会再继续开发，因为有了更好的选择[ >了解MixPHP<](https://github.com/onanying/MixPHP-V1)**
+
 ## 欢迎使用 ExpressPHP
 
 `ExpressPHP` 是一个极简的 web 开发MVC框架，和 `ThinkPHP5` 一样现代化，比 `CodeIgniter` 还要轻量级，真正突破框架限制，让你感受到自由，同时兼顾高性能、低学习成本。
