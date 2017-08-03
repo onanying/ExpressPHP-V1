@@ -1,4 +1,4 @@
-> **ExpressPHP 不会再继续开发，因为有了更好的选择[ >了解MixPHP<](https://github.com/onanying/MixPHP-V1)**
+> ExpressPHP 不会再继续开发，因为有了更好的选择 [>MixPHP<](https://github.com/onanying/MixPHP-V1)
 
 ## 欢迎使用 ExpressPHP
 
