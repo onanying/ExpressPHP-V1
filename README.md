@@ -1,4 +1,4 @@
-> ExpressPHP 不会再继续开发，因为有了更好的选择 [>MixPHP<](https://github.com/onanying/MixPHP-V1)
+> ExpressPHP V2 已更名为 [MixPHP](https://github.com/onanying/MixPHP-V1)，一个颠覆和重构版本，全新的架构思想，欢迎使用。
 
 ## 欢迎使用 ExpressPHP
 
